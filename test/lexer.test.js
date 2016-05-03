@@ -10,10 +10,10 @@ const should = require('should');
 describe('Lexer', () => {
   const fixturesPath = path.join(__dirname, 'fixtures/lexer');
   const tests = fs.readdirSync(fixturesPath);
-  let lexer;
+  let tokenize;
 
   beforeEach(() => {
-    lexer = require('../tmp/lexer');
+    tokenize = require('../tmp/lexer');
   });
 
   tests.forEach((test) => {
@@ -34,7 +34,7 @@ describe('Lexer', () => {
         let result;
 
         should(() => {
-          result = lexer(source, config.options);
+          result = tokenize(source, config.options);
         }).not.throw();
 
         if (!config.ignoreResult) {
@@ -46,7 +46,7 @@ describe('Lexer', () => {
         }
       } else {
         should(() => {
-          lexer(source, config.options);
+          tokenize(source, config.options);
         }).throw(config.error);
       }
     });
