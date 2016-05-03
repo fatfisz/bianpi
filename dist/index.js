@@ -98,7 +98,7 @@ class Position {
   }
 }
 
-const operator = /[=*{}()[\]<>,]/;
+const operator = /[=+\-*{}()[\]<>,]/;
 
 const STATE_DEFAULT = Symbol();
 const STATE_SLASH = Symbol();
