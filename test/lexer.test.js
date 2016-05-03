@@ -10,10 +10,10 @@ const should = require('should');
 describe('Lexer', () => {
   const fixturesPath = path.join(__dirname, 'fixtures/lexer');
   const tests = fs.readdirSync(fixturesPath);
-  let binapi;
+  let lexer;
 
   beforeEach(() => {
-    binapi = require('../tmp/lexer');
+    lexer = require('../tmp/lexer');
   });
 
   tests.forEach((test) => {
@@ -34,7 +34,7 @@ describe('Lexer', () => {
         let result;
 
         should(() => {
-          result = binapi(source, config.options);
+          result = lexer(source, config.options);
         }).not.throw();
 
         if (!config.ignoreResult) {
@@ -46,7 +46,7 @@ describe('Lexer', () => {
         }
       } else {
         should(() => {
-          binapi(source, config.options);
+          lexer(source, config.options);
         }).throw(config.error);
       }
     });
