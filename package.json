@@ -1,0 +1,41 @@
+{
+  "name": "binapi-parser",
+  "version": "0.0.1",
+  "description": "Binary API parser",
+  "main": "dist/index.js",
+  "jsnext:main": "lib/index.js",
+  "files": [
+    "dist",
+    "lib/**/*.js"
+  ],
+  "keywords": [],
+  "homepage": "https://github.com/fatfisz/binapi",
+  "repository": "https://github.com/fatfisz/binapi.git",
+  "author": {
+    "name": "FatFisz",
+    "url": "https://github.com/fatfisz"
+  },
+  "license": "MIT",
+  "scripts": {
+    "prepublish": "grunt prepublish",
+    "test": "grunt test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^2.9.0",
+    "eslint-config-fatfisz": "^2.9.0",
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-eslint": "^18.1.0",
+    "grunt-mocha-test": "^0.12.7",
+    "grunt-rollup": "^0.7.1",
+    "load-grunt-tasks": "^3.5.0",
+    "mocha": "^2.4.5",
+    "mockery": "^1.6.2",
+    "rollup-plugin-node-resolve": "^1.5.0",
+    "rollup-plugin-replace": "^1.1.0",
+    "should": "^8.3.1",
+    "unicode-8.0.0": "^0.1.5"
+  }
+}
