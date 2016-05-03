@@ -113,7 +113,7 @@ const STATE_STRING = Symbol();
 const STATE_STRING_ESCAPE = Symbol();
 const STATE_IDENTIFIER = Symbol();
 
-class LexerState {
+class Lexer {
   constructor(source, { trackComments = false }) {
     Object.assign(this, {
       source,
@@ -342,24 +342,24 @@ class LexerState {
 
 function tokenize(rawSource, options = {}) {
   const source = `${rawSource}`;
-  const lexerState = new LexerState(source, options);
+  const lexer = new Lexer(source, options);
 
   for (const char of source) {
-    lexerState.handleChar(char);
-    lexerState.nextPosition(char);
+    lexer.handleChar(char);
+    lexer.nextPosition(char);
   }
 
   // Handle the end of file
-  lexerState.handleChar(null);
+  lexer.handleChar(null);
 
   return {
     start: new Position().toObject(),
-    end: lexerState.position.toObject(),
-    tokens: lexerState.tokens,
+    end: lexer.position.toObject(),
+    tokens: lexer.tokens,
   };
 }
 
-class ParserState {
+class Parser {
   constructor({ tokens, start, end }) {
     const rootNode = {
       type: 'root',
@@ -374,12 +374,18 @@ class ParserState {
       currentNode: rootNode,
     });
   }
+
+  parse() {
+
+  }
 }
 
 function parse(lexerResult) {
-  const parserState = new ParserState(lexerResult);
+  const parser = new Parser(lexerResult);
 
-  return parserState.root;
+  parser.parse();
+
+  return parser.root;
 }
 
 function generate(source, options) {

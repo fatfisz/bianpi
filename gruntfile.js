@@ -38,6 +38,7 @@ module.exports = function register(grunt) {
       test: {
         files: {
           'tmp/lexer.js': 'lib/lexer.js',
+          'tmp/parser.js': 'lib/parser.js',
         },
       },
     },
