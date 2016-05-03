@@ -47,6 +47,21 @@ function dedent(strings, ...values) {
   ).trim();
 }
 
+class LexerError extends Error {
+  constructor(message, position) {
+    super(message);
+
+    Object.assign(this, position);
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, this.constructor);
+    }
+  }
+}
+
+LexerError.prototype.name = 'LexerError';
+LexerError.prototype.message = '';
+
 const privateData = new WeakMap();
 
 
@@ -174,28 +189,24 @@ class Lexer {
   }
 
   getPlainUnexpectedCharError(char) {
-    return Object.assign(
-      new Error(`Unexpected character '${char}'.`),
+    return new LexerError(
+      `Unexpected character '${char}'.`,
       this.position.toObject()
     );
   }
 
   getUnexpectedCharError(type, char) {
-    return Object.assign(
-      new Error(dedent`
-        Unexpected character '${char}'.
-        ${type} started at ${this.savedPosition} is unfinished.
-      `),
+    return new LexerError(
+      dedent`Unexpected character '${char}'.
+             ${type} started at ${this.savedPosition} is unfinished.`,
       this.position.toObject()
     );
   }
 
   getUnexpectedEndError(type, char) {
-    return Object.assign(
-      new Error(dedent`
-        Unexpected end of ${char === null ? 'file' : 'line'}.
-        ${type} started at ${this.savedPosition} is unfinished.
-      `),
+    return new LexerError(
+      dedent`Unexpected end of ${char === null ? 'file' : 'line'}.
+             ${type} started at ${this.savedPosition} is unfinished.`,
       this.position.toObject()
     );
   }
