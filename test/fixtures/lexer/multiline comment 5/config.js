@@ -1,6 +1,9 @@
 'use strict';
 
 module.exports = {
+  options: {
+    trackComments: true,
+  },
   type: 'success',
   result: {
     start: {

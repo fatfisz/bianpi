@@ -1,9 +1,6 @@
 'use strict';
 
 module.exports = {
-  options: {
-    trackComments: true,
-  },
   type: 'success',
   result: {
     start: {
@@ -11,21 +8,21 @@ module.exports = {
       column: 1,
     },
     end: {
-      line: 1,
-      column: 11,
+      line: 4,
+      column: 1,
     },
     tokens: [
       {
-        type: 'comment',
+        type: 'ident',
         start: {
-          line: 1,
-          column: 1,
+          line: 3,
+          column: 5,
         },
         end: {
-          line: 1,
-          column: 10,
+          line: 3,
+          column: 6,
         },
-        value: ' Comment',
+        value: 'id',
       },
     ],
   },

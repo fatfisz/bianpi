@@ -114,9 +114,10 @@ const STATE_STRING_ESCAPE = Symbol();
 const STATE_IDENTIFIER = Symbol();
 
 class LexerState {
-  constructor(source) {
+  constructor(source, { trackComments = false }) {
     Object.assign(this, {
       source,
+      trackComments,
       tokens: [],
       state: STATE_DEFAULT,
       position: new Position(),
@@ -141,6 +142,10 @@ class LexerState {
   }
 
   pushToken(type, textStartOffset = 0, textEndOffset = 0) {
+    if (!this.trackComments && type === 'comment') {
+      return;
+    }
+
     this.tokens.push({
       type,
       start: this.savedPosition.toObject(),
@@ -153,6 +158,10 @@ class LexerState {
   }
 
   pushTokenPrevColumn(type, textStartOffset = 0, textEndOffset = 0) {
+    if (!this.trackComments && type === 'comment') {
+      return;
+    }
+
     this.tokens.push({
       type,
       start: this.savedPosition.toObject(),
@@ -331,9 +340,9 @@ class LexerState {
   }
 }
 
-function tokenize(rawSource) {
+function tokenize(rawSource, options = {}) {
   const source = `${rawSource}`;
-  const lexerState = new LexerState(source);
+  const lexerState = new LexerState(source, options);
 
   for (const char of source) {
     lexerState.handleChar(char);
@@ -350,22 +359,32 @@ function tokenize(rawSource) {
   };
 }
 
-function parse(tokens, options) {
-  const { start, end } = options;
+class ParserState {
+  constructor({ tokens, start, end }) {
+    const rootNode = {
+      type: 'root',
+      start,
+      end,
+      children: [],
+    };
 
-  const rootNode = {
-    type: 'root',
-    start,
-    end,
-    children: [],
-  };
+    Object.assign(this, {
+      tokens,
+      root: rootNode,
+      currentNode: rootNode,
+    });
+  }
+}
 
-  return rootNode;
+function parse(lexerResult) {
+  const parserState = new ParserState(lexerResult);
+
+  return parserState.root;
 }
 
 function generate(source, options) {
-  const { start, end, tokens } = tokenize(source, options);
-  const tree = parse(tokens, { start, end });
+  const lexerResult = tokenize(source, options);
+  const tree = parse(lexerResult, options);
 
   return tree;
 }
