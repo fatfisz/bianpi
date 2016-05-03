@@ -1,0 +1,212 @@
+/**
+ * Packet
+ *
+ * Packet is a unit of data which is used in communication between the server
+ * and the client. When a message is received (either on the server or client),
+ * it is expected to be a packet. 1 packet consists of 1 or more messages
+ * (defined below).
+ */
+
+/**
+ * Basic types
+ *
+ * int8, int16, int32 - n-bit signed integers
+ * uint8, uint16, uint32 - n-bit unsigned integers
+ * float32, float64 - n-bit floats
+ */
+
+/**
+ * Consts
+ */
+
+VERSION = '3'
+
+/**
+ * Custom types and structures
+ */
+
+alias uint32 playerId
+alias uint32 itemId
+
+enum bool {
+  FALSE = 0x00
+  TRUE  = 0x01
+}
+
+struct string {
+  uint16        length
+  uint8[length] chars
+}
+
+struct shortString {
+  uint8         length
+  uint8[length] chars
+}
+
+// the upper left corner of the map fragment is (x, y) and it's size is n x m
+// textures are passed from the left to the right, from the top to the bottom
+struct mapFragment {
+  int16         x
+  int16         y
+  uint16        n
+  uint16        m
+  uint16[n * m] textures
+}
+
+struct player {
+  playerId    id
+  shortString nick
+  float32     x
+  float32     y
+
+  // 0 is top, π/2 is right, π is bottom, 3/2π is left; value should be clipped to [0, 2π]
+  float32     angle
+
+  // considered valid only if 0 <= hue <= 359
+  uint16      hue
+}
+
+struct currentPlayer {
+  player        player
+  itemContainer equipment
+}
+
+struct item {
+  itemId id
+  uint16 type
+  uint16 order
+}
+
+struct itemContainer {
+  itemId     capacity
+  list<item> items
+}
+
+struct list<t> {
+  uint16    length
+  t[length] elements
+}
+
+/**
+ * Messages
+ */
+
+[read(server)]
+[write(client)]
+{
+  // Reliable client messages, from 0x0000
+  {
+    message register = 0x0001 {
+      shortString nick
+      shortString password
+    }
+
+    message nickAvailable = 0x0002 {
+      shortString nick
+    }
+
+    message login = 0x0003 {
+      shortString nick
+      shortString password
+    }
+
+    message readyState = 0x0004 {
+      bool isReady
+    }
+
+    message sendGlobalMessage = 0x0100 {
+      string text
+    }
+
+    message sendPrivateMessage = 0x0101 {
+      playerId recipient
+      string   text
+    }
+  }
+
+  // Unreliable client messages, from 0x1000
+  {
+    message playerInput = 0x1000 {
+      float32 angle
+      float32 scalar // clipped to [0, 1]
+    }
+
+    message useItemOnField = 0x1001 {
+      itemId id
+      int16  x
+      int16  y
+    }
+  }
+}
+
+[read(client)]
+[write(server)]
+{
+  // Reliable server messages, from 0x2000
+  {
+    message error = 0x2000 {
+      enum {
+        UNKNOWN_MESSAGE_TYPE = 0x0000
+        INVALID_MESSAGE      = 0x0001
+        SERVER_ERROR         = 0x0002
+      } errorCode
+    }
+
+    message registerResponse = 0x2001 {
+      enum {
+        OK               = 0x00
+        NICK_UNAVAILABLE = 0x01
+        INVALID_PASSWORD = 0x02
+      } responseCode
+    }
+
+    message nickAvailableResponse = 0x2002 {
+      shortString nick
+      bool        isAvailable
+    }
+
+    message loginResponse = 0x2003 {
+      enum {
+        OK                  = 0x00
+        INVALID_CREDENTIALS = 0x01
+        ALREADY_LOGGED_IN   = 0x02
+      } responseCode
+    }
+
+    message messageReceived = 0x2100 {
+      bool     isPrivate
+      playerId sender
+      string   text
+    }
+  }
+
+  // Unreliable server messages, from 0x3000
+  {
+    message worldState = 0x3000 {
+      mapFragment   mapFragment
+      currentPlayer currentPlayer
+      list<player>  players
+    }
+
+    message timestamp = 0x3001 {
+      float64 time
+    }
+  }
+
+  // Unreliable server debug messages, from 0x7000
+  {
+    struct debugMarker {
+      float32 x
+      float32 y
+      uint16  hue
+    }
+
+    message debugMarkers = 0x7000 {
+      list<debugMarker> markers
+    }
+
+    message debugVarDumpJSON = 0x7001 {
+      string vars
+    }
+  }
+}
