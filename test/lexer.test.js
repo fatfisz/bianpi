@@ -42,6 +42,7 @@ describe('Lexer', () => {
         }
 
         if (config.inspectResult) {
+          // eslint-disable-next-line no-console
           console.log(util.inspect(result, { colors: true, depth: null }));
         }
       } else {
