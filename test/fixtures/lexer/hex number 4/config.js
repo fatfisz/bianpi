@@ -22,7 +22,7 @@ module.exports = {
           line: 1,
           column: 3,
         },
-        text: '0xf',
+        value: '0xf',
       },
       {
         type: 'number',
@@ -34,7 +34,7 @@ module.exports = {
           line: 1,
           column: 7,
         },
-        text: '0xF',
+        value: '0xF',
       },
     ],
   },

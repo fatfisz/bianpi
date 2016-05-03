@@ -22,7 +22,7 @@ module.exports = {
           line: 3,
           column: 2,
         },
-        text: '\r\nThis is a multiline comment\r\n',
+        value: '\r\nThis is a multiline comment\r\n',
       },
     ],
   },

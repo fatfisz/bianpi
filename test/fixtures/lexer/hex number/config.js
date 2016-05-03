@@ -22,7 +22,7 @@ module.exports = {
           line: 1,
           column: 3,
         },
-        text: '0x0',
+        value: '0x0',
       },
     ],
   },

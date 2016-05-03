@@ -145,7 +145,7 @@ class LexerState {
       type,
       start: this.savedPosition.toObject(),
       end: this.position.clone().toObject(),
-      text: this.source.slice(
+      value: this.source.slice(
         this.savedIndex + textStartOffset,
         this.index + textEndOffset
       ),
@@ -157,7 +157,7 @@ class LexerState {
       type,
       start: this.savedPosition.toObject(),
       end: this.position.clone().prevColumn().toObject(),
-      text: this.source.slice(
+      value: this.source.slice(
         this.savedIndex + textStartOffset,
         this.index + textEndOffset
       ),

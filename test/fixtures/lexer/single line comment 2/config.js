@@ -22,7 +22,7 @@ module.exports = {
           line: 1,
           column: 9,
         },
-        text: 'Comment',
+        value: 'Comment',
       },
       {
         type: 'comment',
@@ -34,7 +34,7 @@ module.exports = {
           line: 2,
           column: 13,
         },
-        text: 'Comment 2',
+        value: 'Comment 2',
       },
     ],
   },

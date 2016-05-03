@@ -22,7 +22,7 @@ module.exports = {
           line: 1,
           column: 1,
         },
-        text: '1',
+        value: '1',
       },
       {
         type: 'ident',
@@ -34,7 +34,7 @@ module.exports = {
           line: 1,
           column: 3,
         },
-        text: 'a1',
+        value: 'a1',
       },
     ],
   },

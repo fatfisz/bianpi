@@ -22,7 +22,7 @@ module.exports = {
           line: 1,
           column: 2,
         },
-        text: 'id',
+        value: 'id',
       },
       {
         type: 'operator',
@@ -34,7 +34,7 @@ module.exports = {
           line: 1,
           column: 3,
         },
-        text: ',',
+        value: ',',
       },
       {
         type: 'ident',
@@ -46,7 +46,7 @@ module.exports = {
           line: 1,
           column: 7,
         },
-        text: 'id_2',
+        value: 'id_2',
       },
     ],
   },

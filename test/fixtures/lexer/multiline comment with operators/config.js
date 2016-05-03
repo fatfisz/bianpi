@@ -13,6 +13,7 @@ module.exports = {
     },
     tokens: [
       {
+        type: 'comment',
         start: {
           line: 1,
           column: 1,
@@ -21,10 +22,10 @@ module.exports = {
           line: 1,
           column: 8,
         },
-        text: ' /* ',
-        type: 'comment',
+        value: ' /* ',
       },
       {
+        type: 'operator',
         start: {
           line: 1,
           column: 10,
@@ -33,10 +34,10 @@ module.exports = {
           line: 1,
           column: 10,
         },
-        text: '*',
-        type: 'operator',
+        value: '*',
       },
       {
+        type: 'operator',
         start: {
           line: 1,
           column: 11,
@@ -45,8 +46,7 @@ module.exports = {
           line: 1,
           column: 11,
         },
-        text: '/',
-        type: 'operator',
+        value: '/',
       },
     ],
   },

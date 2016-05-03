@@ -22,7 +22,7 @@ module.exports = {
           line: 1,
           column: 8,
         },
-        text: 'string',
+        value: 'string',
       },
       {
         type: 'string',
@@ -34,7 +34,7 @@ module.exports = {
           line: 1,
           column: 18,
         },
-        text: 'string 2',
+        value: 'string 2',
       },
     ],
   },

@@ -22,7 +22,7 @@ module.exports = {
           line: 1,
           column: 24,
         },
-        text: '0x0123456789abcdefABCDEF',
+        value: '0x0123456789abcdefABCDEF',
       },
     ],
   },

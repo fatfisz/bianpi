@@ -22,7 +22,7 @@ module.exports = {
           line: 1,
           column: 3,
         },
-        text: '0xf',
+        value: '0xf',
       },
       {
         type: 'ident',
@@ -34,7 +34,7 @@ module.exports = {
           line: 1,
           column: 8,
         },
-        text: 'g0x0x',
+        value: 'g0x0x',
       },
     ],
   },

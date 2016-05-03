@@ -22,7 +22,7 @@ module.exports = {
           line: 3,
           column: 2,
         },
-        text: '*\nComment\n',
+        value: '*\nComment\n',
       },
       {
         type: 'comment',
@@ -34,7 +34,7 @@ module.exports = {
           line: 6,
           column: 5,
         },
-        text: '\n  Comment 2\n  *',
+        value: '\n  Comment 2\n  *',
       },
     ],
   },
