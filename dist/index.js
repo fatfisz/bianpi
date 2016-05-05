@@ -43,7 +43,7 @@ function dedent(strings, ...values) {
 
   return values.reduce(
     (acc, value, index) => acc + value + mappedStrings[index + 1],
-    strings[0]
+    mappedStrings[0]
   ).trim();
 }
 
