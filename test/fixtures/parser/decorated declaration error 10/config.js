@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 1,
     column: 14,
-    message: 'Expected a comma \',\' or a closing paren \')\' but found \'1\' instead.',
+    message: 'Expected a closing paren \')\' but found \'1\' instead.',
   },
 };

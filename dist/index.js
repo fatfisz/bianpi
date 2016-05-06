@@ -465,7 +465,7 @@ class Parser {
     if (!this.hasTokens) {
       throw new ParserError(
         dedent`Unexpected end of file.
-               ${type}
+               ${type.slice(0, 1).toUpperCase()}${type.slice(1)}
                (started at ${new Position(startToken.start)})
                is missing ${missing}.`,
         this.end
@@ -498,10 +498,10 @@ class Parser {
   parseAlias() {
     const { start } = this.popToken();
 
-    this.expectToken('Alias declaration', start, 'a type');
+    this.expectToken('alias declaration', start, 'a type');
     const type = this.parseType();
 
-    this.expectToken('Alias declaration', start, 'a name');
+    this.expectToken('alias declaration', start, 'a name');
     const name = this.parseIdent('an alias name');
 
     return {
@@ -516,7 +516,7 @@ class Parser {
     const openingBrace = this.popToken();
     const declarations = this.parseDeclarations();
 
-    this.expectToken('Block', openingBrace, 'a closing brace \'}\'');
+    this.expectToken('block', openingBrace, 'a closing brace \'}\'');
     const closingBrace = this.popToken();
     if (!isToken(closingBrace, 'operator', '}')) {
       throw this.getUnexpectedError('a closing brace \'}\'', closingBrace);
@@ -533,16 +533,16 @@ class Parser {
   parseConstDeclaration() {
     const constKeyword = this.popToken();
 
-    this.expectToken('Const declaration', constKeyword, 'a name');
+    this.expectToken('const declaration', constKeyword, 'a name');
     const name = this.parseIdent('a const name');
 
-    this.expectToken('Const declaration', constKeyword, 'an assignment operator \'=\'');
+    this.expectToken('const declaration', constKeyword, 'an assignment operator \'=\'');
     const equality = this.popToken();
     if (!isToken(equality, 'operator', '=')) {
       throw this.getUnexpectedError('an assignment operator \'=\'', equality);
     }
 
-    this.expectToken('Const declaration', constKeyword, 'a value');
+    this.expectToken('const declaration', constKeyword, 'a value');
     const expression = this.parseExpression();
 
     return {
@@ -607,13 +607,13 @@ class Parser {
     while (isToken(decoratorOperator, 'operator', '@')) {
       this.popToken();
 
-      this.expectToken('Decorator', decoratorOperator, 'a name (read/write)');
+      this.expectToken('decorator', decoratorOperator, 'a name (read/write)');
       const name = this.popToken();
       if (!isDeclarationMode(name)) {
         throw this.getUnexpectedError('a decorator name (read/write)', name);
       }
 
-      this.expectToken('Decorator', decoratorOperator, 'an opening paren \'(\'');
+      this.expectToken('decorator', decoratorOperator, 'an opening paren \'(\'');
       const openingParen = this.popToken();
       if (!isToken(openingParen, 'operator', '(')) {
         throw this.getUnexpectedError('an opening paren \'(\'', openingParen);
@@ -623,19 +623,19 @@ class Parser {
       let separator;
 
       do {
-        this.expectToken('Decorator', decoratorOperator, 'a target name argument');
+        this.expectToken('decorator', decoratorOperator, 'a target name argument');
         targets.push(this.parseIdent('a target name'));
 
-        this.expectToken('Decorator', decoratorOperator, 'a comma \',\' or a closing paren \')\'');
+        this.expectToken('decorator', decoratorOperator, 'a closing paren \')\'');
         separator = this.popToken();
         if (!isTargetListOperator(separator)) {
-          throw this.getUnexpectedError('a comma \',\' or a closing paren \')\'', separator);
+          throw this.getUnexpectedError('a closing paren \')\'', separator);
         }
       } while (separator.value === ',');
 
       decorators.push({ name, targets });
 
-      this.expectToken('Decorated declaration', firstDecorator, 'a declaration');
+      this.expectToken('decorated declaration', firstDecorator, 'a declaration');
       decoratorOperator = this.peekToken();
     }
 
@@ -655,26 +655,26 @@ class Parser {
   parseEnum() {
     const enumKeyword = this.popToken();
 
-    this.expectToken('Enum declaration', enumKeyword, 'a name');
+    this.expectToken('enum declaration', enumKeyword, 'a name');
     const name = this.parseIdent('an enum name');
 
-    this.expectToken('Enum declaration', enumKeyword, 'an opening brace \'{\'');
+    this.expectToken('enum declaration', enumKeyword, 'an opening brace \'{\'');
     const openingBrace = this.popToken();
     if (!isToken(openingBrace, 'operator', '{')) {
       throw this.getUnexpectedError('an opening brace \'{\'', openingBrace);
     }
 
-    this.expectToken('Enum declaration', enumKeyword, 'values');
+    this.expectToken('enum declaration', enumKeyword, 'values');
     const values = [this.parseEnumValue()];
     const expectedLength = values[0].props.value.value.length - 2;
 
-    this.expectToken('Enum declaration', enumKeyword, 'a closing brace \'}\'');
+    this.expectToken('enum declaration', enumKeyword, 'a closing brace \'}\'');
     let closingBrace = this.peekToken();
 
     while (!isToken(closingBrace, 'operator', '}')) {
       values.push(this.parseEnumValue(expectedLength));
 
-      this.expectToken('Enum declaration', enumKeyword, 'a closing brace \'}\'');
+      this.expectToken('enum declaration', enumKeyword, 'a closing brace \'}\'');
       closingBrace = this.peekToken();
     }
 
@@ -691,13 +691,13 @@ class Parser {
   parseEnumValue(expectedLength = null) {
     const name = this.parseIdent('an enum value name');
 
-    this.expectToken('Enum value declaration', name, 'an assignment operator \'=\'');
+    this.expectToken('enum value declaration', name, 'an assignment operator \'=\'');
     const equality = this.popToken();
     if (!isToken(equality, 'operator', '=')) {
       throw this.getUnexpectedError('an assignment operator \'=\'', equality);
     }
 
-    this.expectToken('Enum value declaration', name, 'a value');
+    this.expectToken('enum value declaration', name, 'a value');
     const value = this.popToken();
     if (!isHexadecimalNumber(value)) {
       throw this.getUnexpectedError('a hexadecimal number', value);
@@ -729,7 +729,7 @@ class Parser {
       while (isExpressionOperator(operator)) {
         elements.push(this.popToken());
 
-        this.expectToken('Expression', firstValue, 'a value');
+        this.expectToken('expression', firstValue, 'a value');
         elements.push(this.parseExpressionValue());
 
         if (this.hasTokens) {
@@ -752,10 +752,10 @@ class Parser {
     const value = this.popToken();
 
     if (isToken(value, 'operator', '(')) {
-      this.expectToken('Parenthesized expression', value, 'a value');
+      this.expectToken('parenthesized expression', value, 'a value');
       const expression = this.parseExpression();
 
-      this.expectToken('Parenthesized expression', value, 'a closing paren \')\'');
+      this.expectToken('parenthesized expression', value, 'a closing paren \')\'');
       const closingParen = this.popToken();
 
       if (!isToken(closingParen, 'operator', ')')) {
@@ -783,21 +783,21 @@ class Parser {
     const type = this.parseType();
     const props = { type };
 
-    this.expectToken('Field definition', type, 'a field name');
+    this.expectToken('field definition', type, 'a field name');
     if (isToken(this.peekToken(), 'operator', '[')) {
       const openingBracket = this.popToken();
 
-      this.expectToken('Array length expression', openingBracket, 'an expression');
+      this.expectToken('array length expression', openingBracket, 'an expression');
       props.count = this.parseExpression();
 
-      this.expectToken('Array length expression', openingBracket, 'a closing bracket \']\'');
+      this.expectToken('array length expression', openingBracket, 'a closing bracket \']\'');
       const closingBracket = this.popToken();
       if (!isToken(closingBracket, 'operator', ']')) {
         throw this.getUnexpectedError('a closing bracket \']\'', closingBracket);
       }
     }
 
-    this.expectToken('Field definition', type, 'a field name');
+    this.expectToken('field definition', type, 'a field name');
     props.name = this.parseIdent('a field name');
 
     return {
@@ -821,22 +821,22 @@ class Parser {
   parseMessage() {
     const messageKeyword = this.popToken();
 
-    this.expectToken('Message declaration', messageKeyword, 'a name');
+    this.expectToken('message declaration', messageKeyword, 'a name');
     const name = this.parseIdent('a message name');
 
-    this.expectToken('Message declaration', messageKeyword, 'an assignment operator \'=\'');
+    this.expectToken('message declaration', messageKeyword, 'an assignment operator \'=\'');
     const equality = this.popToken();
     if (!isToken(equality, 'operator', '=')) {
       throw this.getUnexpectedError('an assignment operator \'=\'', equality);
     }
 
-    this.expectToken('Message declaration', messageKeyword, 'something 4');
+    this.expectToken('message declaration', messageKeyword, 'something 4');
     const id = this.popToken();
     if (id.type !== 'number') {
       throw this.getUnexpectedError('something 5', id);
     }
 
-    this.expectToken('Message declaration', messageKeyword, 'an opening brace \'{\'');
+    this.expectToken('message declaration', messageKeyword, 'an opening brace \'{\'');
     const openingBrace = this.popToken();
     if (!isToken(openingBrace, 'operator', '{')) {
       throw this.getUnexpectedError('an opening brace \'{\'', openingBrace);
@@ -844,13 +844,13 @@ class Parser {
 
     const fields = [];
 
-    this.expectToken('Message declaration', messageKeyword, 'a closing brace \'}\'');
+    this.expectToken('message declaration', messageKeyword, 'a closing brace \'}\'');
     let closingBrace = this.peekToken();
 
     while (!isToken(closingBrace, 'operator', '}')) {
       fields.push(this.parseFieldDefinition());
 
-      this.expectToken('Message declaration', messageKeyword, 'a closing brace \'}\'');
+      this.expectToken('message declaration', messageKeyword, 'a closing brace \'}\'');
       closingBrace = this.peekToken();
     }
 
@@ -867,10 +867,10 @@ class Parser {
   parseStruct() {
     const structKeyword = this.popToken();
 
-    this.expectToken('Struct declaration', structKeyword, 'a name');
+    this.expectToken('struct declaration', structKeyword, 'a name');
     const name = this.parseStructName();
 
-    this.expectToken('Struct declaration', structKeyword, 'an opening brace \'{\'');
+    this.expectToken('struct declaration', structKeyword, 'an opening brace \'{\'');
     const openingBrace = this.popToken();
     if (!isToken(openingBrace, 'operator', '{')) {
       throw this.getUnexpectedError('an opening brace \'{\'', openingBrace);
@@ -878,13 +878,13 @@ class Parser {
 
     const fields = [];
 
-    this.expectToken('Struct declaration', structKeyword, 'a closing brace \'}\'');
+    this.expectToken('struct declaration', structKeyword, 'a closing brace \'}\'');
     let closingBrace = this.peekToken();
 
     while (!isToken(closingBrace, 'operator', '}')) {
       fields.push(this.parseFieldDefinition());
 
-      this.expectToken('Struct declaration', structKeyword, 'a closing brace \'}\'');
+      this.expectToken('struct declaration', structKeyword, 'a closing brace \'}\'');
       closingBrace = this.peekToken();
     }
 
@@ -928,10 +928,10 @@ class Parser {
     let separator;
 
     do {
-      this.expectToken('Struct parameter list', openingPointyBracket, 'a parameter name');
+      this.expectToken('struct parameter list', openingPointyBracket, 'a parameter name');
       parameters.push(this.parseIdent('a parameter name'));
 
-      this.expectToken('Struct parameter list', openingPointyBracket, 'a closing pointy bracket \'>\'');
+      this.expectToken('struct parameter list', openingPointyBracket, 'a closing pointy bracket \'>\'');
       separator = this.popToken();
       if (!isTypeParameterListOperator(separator)) {
         throw this.getUnexpectedError('a closing pointy bracket \'>\'', separator);
@@ -976,10 +976,10 @@ class Parser {
     let separator;
 
     do {
-      this.expectToken('Type parameter list', openingPointyBracket, 'a type');
+      this.expectToken('type parameter list', openingPointyBracket, 'a type');
       parameters.push(this.parseType());
 
-      this.expectToken('Type parameter list', openingPointyBracket, 'a closing pointy bracket \'>\'');
+      this.expectToken('type parameter list', openingPointyBracket, 'a closing pointy bracket \'>\'');
       separator = this.popToken();
       if (!isTypeParameterListOperator(separator)) {
         throw this.getUnexpectedError('a closing pointy bracket \'>\'', separator);
