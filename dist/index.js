@@ -502,7 +502,7 @@ class Parser {
     const type = this.parseType();
 
     this.expectToken('Alias declaration', start, 'a name');
-    const name = this.parseIdent();
+    const name = this.parseIdent('an alias name');
 
     return {
       type: 'alias',
@@ -534,7 +534,7 @@ class Parser {
     const constKeyword = this.popToken();
 
     this.expectToken('Const declaration', constKeyword, 'a name');
-    const name = this.parseIdent();
+    const name = this.parseIdent('a const name');
 
     this.expectToken('Const declaration', constKeyword, 'an assignment operator \'=\'');
     const equality = this.popToken();
@@ -623,8 +623,8 @@ class Parser {
       let separator;
 
       do {
-        this.expectToken('Decorator', decoratorOperator, 'a target argument');
-        targets.push(this.parseIdent());
+        this.expectToken('Decorator', decoratorOperator, 'a target name argument');
+        targets.push(this.parseIdent('a target name'));
 
         this.expectToken('Decorator', decoratorOperator, 'a comma \',\' or a closing paren \')\'');
         separator = this.popToken();
@@ -656,7 +656,7 @@ class Parser {
     const enumKeyword = this.popToken();
 
     this.expectToken('Enum declaration', enumKeyword, 'a name');
-    const name = this.parseIdent();
+    const name = this.parseIdent('an enum name');
 
     this.expectToken('Enum declaration', enumKeyword, 'an opening brace \'{\'');
     const openingBrace = this.popToken();
@@ -689,7 +689,7 @@ class Parser {
   }
 
   parseEnumValue(expectedLength = null) {
-    const name = this.parseIdent();
+    const name = this.parseIdent('an enum value name');
 
     this.expectToken('Enum value declaration', name, 'an assignment operator \'=\'');
     const equality = this.popToken();
@@ -798,7 +798,7 @@ class Parser {
     }
 
     this.expectToken('Field definition', type, 'a field name');
-    props.name = this.parseIdent();
+    props.name = this.parseIdent('a field name');
 
     return {
       type: 'fieldDefinition',
@@ -808,11 +808,11 @@ class Parser {
     };
   }
 
-  parseIdent() {
+  parseIdent(role) {
     const ident = this.popToken();
 
     if (ident.type !== 'ident') {
-      throw this.getUnexpectedError('an identifier', ident);
+      throw this.getUnexpectedError(role, ident);
     }
 
     return ident;
@@ -822,7 +822,7 @@ class Parser {
     const messageKeyword = this.popToken();
 
     this.expectToken('Message declaration', messageKeyword, 'a name');
-    const name = this.parseIdent();
+    const name = this.parseIdent('a message name');
 
     this.expectToken('Message declaration', messageKeyword, 'an assignment operator \'=\'');
     const equality = this.popToken();
@@ -899,7 +899,7 @@ class Parser {
   }
 
   parseStructName() {
-    const name = this.parseIdent();
+    const name = this.parseIdent('a struct name');
     const props = { name };
     let end = name.end;
 
@@ -929,7 +929,7 @@ class Parser {
 
     do {
       this.expectToken('Struct parameter list', openingPointyBracket, 'a parameter name');
-      parameters.push(this.parseIdent());
+      parameters.push(this.parseIdent('a parameter name'));
 
       this.expectToken('Struct parameter list', openingPointyBracket, 'a closing pointy bracket \'>\'');
       separator = this.popToken();
@@ -947,7 +947,7 @@ class Parser {
   }
 
   parseType() {
-    const name = this.parseIdent();
+    const name = this.parseIdent('a type name');
     const props = { name };
     let end = name.end;
 

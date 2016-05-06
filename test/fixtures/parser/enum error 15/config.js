@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 3,
     column: 3,
-    message: 'Expected an identifier but found \'1\' instead.',
+    message: 'Expected an enum value name but found \'1\' instead.',
   },
 };

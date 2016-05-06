@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 6,
-    message: 'Expected an identifier but found \'1\' instead.',
+    message: 'Expected a field name but found \'1\' instead.',
   },
 };
