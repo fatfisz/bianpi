@@ -465,8 +465,8 @@ class Parser {
     if (!this.hasTokens) {
       throw new ParserError(
         dedent`Unexpected end of file.
-               ${type} started at
-               ${new Position(startToken.start)}
+               ${type}
+               (started at ${new Position(startToken.start)})
                is missing ${missing}.`,
         this.end
       );

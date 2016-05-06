@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 3,
     column: 1,
-    message: 'Unexpected end of file. Field definition started at 2:3 is missing a field name.',
+    message: 'Unexpected end of file. Field definition (started at 2:3) is missing a field name.',
   },
 };

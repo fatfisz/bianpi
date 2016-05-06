@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 3,
     column: 1,
-    message: 'Unexpected end of file. Decorated declaration started at 1:1 is missing a declaration.',
+    message: 'Unexpected end of file. Decorated declaration (started at 1:1) is missing a declaration.',
   },
 };

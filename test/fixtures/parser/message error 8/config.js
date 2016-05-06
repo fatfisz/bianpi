@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Message declaration started at 1:1 is missing an opening brace \'{\'.',
+    message: 'Unexpected end of file. Message declaration (started at 1:1) is missing an opening brace \'{\'.',
   },
 };
