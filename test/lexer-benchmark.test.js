@@ -33,9 +33,13 @@ describe('Lexer Benchmark', () => {
       if (config.type === 'success') {
         let result;
 
-        should(() => {
+        if (config.unwrap) {
           result = tokenize(source, config.options);
-        }).not.throw();
+        } else {
+          should(() => {
+            result = tokenize(source, config.options);
+          }).not.throw();
+        }
 
         if (!config.ignoreResult) {
           should(result).be.eql(config.result);
@@ -45,6 +49,8 @@ describe('Lexer Benchmark', () => {
           // eslint-disable-next-line no-console
           console.log(util.inspect(result, { colors: true, depth: null }));
         }
+      } else if (config.unwrap) {
+        tokenize(source, config.options);
       } else {
         should(() => {
           tokenize(source, config.options);

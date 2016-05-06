@@ -38,9 +38,13 @@ describe('Parser', () => {
       if (config.type === 'success') {
         let result;
 
-        should(() => {
+        if (config.unwrap) {
           result = parser(lexerResult, config.options);
-        }).not.throw();
+        } else {
+          should(() => {
+            result = parser(lexerResult, config.options);
+          }).not.throw();
+        }
 
         if (!config.ignoreResult) {
           should(result).be.eql(config.result);
@@ -50,6 +54,8 @@ describe('Parser', () => {
           // eslint-disable-next-line no-console
           console.log(util.inspect(result, { colors: true, depth: null }));
         }
+      } else if (config.unwrap) {
+        parser(lexerResult, config.options);
       } else {
         should(() => {
           parser(lexerResult, config.options);
