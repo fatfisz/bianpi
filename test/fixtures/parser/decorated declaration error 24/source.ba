@@ -1,0 +1,3 @@
+@read(target, target)
+@write(target, target)
+{

@@ -11,7 +11,7 @@ module.exports = {
       column: 1,
     },
     end: {
-      line: 213,
+      line: 216,
       column: 1,
     },
     tokens: [
@@ -59,7 +59,19 @@ module.exports = {
         },
         end: {
           line: 22,
+          column: 5,
+        },
+        value: 'const',
+      },
+      {
+        type: 'ident',
+        start: {
+          line: 22,
           column: 7,
+        },
+        end: {
+          line: 22,
+          column: 13,
         },
         value: 'VERSION',
       },
@@ -67,11 +79,11 @@ module.exports = {
         type: 'operator',
         start: {
           line: 22,
-          column: 9,
+          column: 15,
         },
         end: {
           line: 22,
-          column: 9,
+          column: 15,
         },
         value: '=',
       },
@@ -79,11 +91,11 @@ module.exports = {
         type: 'string',
         start: {
           line: 22,
-          column: 11,
+          column: 17,
         },
         end: {
           line: 22,
-          column: 13,
+          column: 19,
         },
         value: '3',
       },
@@ -1561,7 +1573,7 @@ module.exports = {
           line: 94,
           column: 1,
         },
-        value: '[',
+        value: '@',
       },
       {
         type: 'ident',
@@ -1614,18 +1626,6 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 94,
-          column: 14,
-        },
-        end: {
-          line: 94,
-          column: 14,
-        },
-        value: ']',
-      },
-      {
-        type: 'operator',
-        start: {
           line: 95,
           column: 1,
         },
@@ -1633,7 +1633,7 @@ module.exports = {
           line: 95,
           column: 1,
         },
-        value: '[',
+        value: '@',
       },
       {
         type: 'ident',
@@ -1682,18 +1682,6 @@ module.exports = {
           column: 14,
         },
         value: ')',
-      },
-      {
-        type: 'operator',
-        start: {
-          line: 95,
-          column: 15,
-        },
-        end: {
-          line: 95,
-          column: 15,
-        },
-        value: ']',
       },
       {
         type: 'operator',
@@ -2725,7 +2713,7 @@ module.exports = {
           line: 142,
           column: 1,
         },
-        value: '[',
+        value: '@',
       },
       {
         type: 'ident',
@@ -2778,18 +2766,6 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 142,
-          column: 14,
-        },
-        end: {
-          line: 142,
-          column: 14,
-        },
-        value: ']',
-      },
-      {
-        type: 'operator',
-        start: {
           line: 143,
           column: 1,
         },
@@ -2797,7 +2773,7 @@ module.exports = {
           line: 143,
           column: 1,
         },
-        value: '[',
+        value: '@',
       },
       {
         type: 'ident',
@@ -2850,18 +2826,6 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 143,
-          column: 15,
-        },
-        end: {
-          line: 143,
-          column: 15,
-        },
-        value: ']',
-      },
-      {
-        type: 'operator',
-        start: {
           line: 144,
           column: 1,
         },
@@ -2903,6 +2867,162 @@ module.exports = {
         },
         end: {
           line: 147,
+          column: 8,
+        },
+        value: 'enum',
+      },
+      {
+        type: 'ident',
+        start: {
+          line: 147,
+          column: 10,
+        },
+        end: {
+          line: 147,
+          column: 18,
+        },
+        value: 'errorCode',
+      },
+      {
+        type: 'operator',
+        start: {
+          line: 147,
+          column: 20,
+        },
+        end: {
+          line: 147,
+          column: 20,
+        },
+        value: '{',
+      },
+      {
+        type: 'ident',
+        start: {
+          line: 148,
+          column: 7,
+        },
+        end: {
+          line: 148,
+          column: 26,
+        },
+        value: 'UNKNOWN_MESSAGE_TYPE',
+      },
+      {
+        type: 'operator',
+        start: {
+          line: 148,
+          column: 28,
+        },
+        end: {
+          line: 148,
+          column: 28,
+        },
+        value: '=',
+      },
+      {
+        type: 'number',
+        start: {
+          line: 148,
+          column: 30,
+        },
+        end: {
+          line: 148,
+          column: 35,
+        },
+        value: '0x0000',
+      },
+      {
+        type: 'ident',
+        start: {
+          line: 149,
+          column: 7,
+        },
+        end: {
+          line: 149,
+          column: 21,
+        },
+        value: 'INVALID_MESSAGE',
+      },
+      {
+        type: 'operator',
+        start: {
+          line: 149,
+          column: 28,
+        },
+        end: {
+          line: 149,
+          column: 28,
+        },
+        value: '=',
+      },
+      {
+        type: 'number',
+        start: {
+          line: 149,
+          column: 30,
+        },
+        end: {
+          line: 149,
+          column: 35,
+        },
+        value: '0x0001',
+      },
+      {
+        type: 'ident',
+        start: {
+          line: 150,
+          column: 7,
+        },
+        end: {
+          line: 150,
+          column: 18,
+        },
+        value: 'SERVER_ERROR',
+      },
+      {
+        type: 'operator',
+        start: {
+          line: 150,
+          column: 28,
+        },
+        end: {
+          line: 150,
+          column: 28,
+        },
+        value: '=',
+      },
+      {
+        type: 'number',
+        start: {
+          line: 150,
+          column: 30,
+        },
+        end: {
+          line: 150,
+          column: 35,
+        },
+        value: '0x0002',
+      },
+      {
+        type: 'operator',
+        start: {
+          line: 151,
+          column: 5,
+        },
+        end: {
+          line: 151,
+          column: 5,
+        },
+        value: '}',
+      },
+      {
+        type: 'ident',
+        start: {
+          line: 152,
+          column: 5,
+        },
+        end: {
+          line: 152,
           column: 11,
         },
         value: 'message',
@@ -2910,11 +3030,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 147,
+          line: 152,
           column: 13,
         },
         end: {
-          line: 147,
+          line: 152,
           column: 17,
         },
         value: 'error',
@@ -2922,11 +3042,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 147,
+          line: 152,
           column: 19,
         },
         end: {
-          line: 147,
+          line: 152,
           column: 19,
         },
         value: '=',
@@ -2934,11 +3054,11 @@ module.exports = {
       {
         type: 'number',
         start: {
-          line: 147,
+          line: 152,
           column: 21,
         },
         end: {
-          line: 147,
+          line: 152,
           column: 26,
         },
         value: '0x2000',
@@ -2946,11 +3066,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 147,
+          line: 152,
           column: 28,
         },
         end: {
-          line: 147,
+          line: 152,
           column: 28,
         },
         value: '{',
@@ -2958,167 +3078,35 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 148,
+          line: 153,
           column: 7,
         },
         end: {
-          line: 148,
-          column: 10,
-        },
-        value: 'enum',
-      },
-      {
-        type: 'operator',
-        start: {
-          line: 148,
-          column: 12,
-        },
-        end: {
-          line: 148,
-          column: 12,
-        },
-        value: '{',
-      },
-      {
-        type: 'ident',
-        start: {
-          line: 149,
-          column: 9,
-        },
-        end: {
-          line: 149,
-          column: 28,
-        },
-        value: 'UNKNOWN_MESSAGE_TYPE',
-      },
-      {
-        type: 'operator',
-        start: {
-          line: 149,
-          column: 30,
-        },
-        end: {
-          line: 149,
-          column: 30,
-        },
-        value: '=',
-      },
-      {
-        type: 'number',
-        start: {
-          line: 149,
-          column: 32,
-        },
-        end: {
-          line: 149,
-          column: 37,
-        },
-        value: '0x0000',
-      },
-      {
-        type: 'ident',
-        start: {
-          line: 150,
-          column: 9,
-        },
-        end: {
-          line: 150,
-          column: 23,
-        },
-        value: 'INVALID_MESSAGE',
-      },
-      {
-        type: 'operator',
-        start: {
-          line: 150,
-          column: 30,
-        },
-        end: {
-          line: 150,
-          column: 30,
-        },
-        value: '=',
-      },
-      {
-        type: 'number',
-        start: {
-          line: 150,
-          column: 32,
-        },
-        end: {
-          line: 150,
-          column: 37,
-        },
-        value: '0x0001',
-      },
-      {
-        type: 'ident',
-        start: {
-          line: 151,
-          column: 9,
-        },
-        end: {
-          line: 151,
-          column: 20,
-        },
-        value: 'SERVER_ERROR',
-      },
-      {
-        type: 'operator',
-        start: {
-          line: 151,
-          column: 30,
-        },
-        end: {
-          line: 151,
-          column: 30,
-        },
-        value: '=',
-      },
-      {
-        type: 'number',
-        start: {
-          line: 151,
-          column: 32,
-        },
-        end: {
-          line: 151,
-          column: 37,
-        },
-        value: '0x0002',
-      },
-      {
-        type: 'operator',
-        start: {
-          line: 152,
-          column: 7,
-        },
-        end: {
-          line: 152,
-          column: 7,
-        },
-        value: '}',
-      },
-      {
-        type: 'ident',
-        start: {
-          line: 152,
-          column: 9,
-        },
-        end: {
-          line: 152,
-          column: 17,
+          line: 153,
+          column: 15,
         },
         value: 'errorCode',
       },
       {
-        type: 'operator',
+        type: 'ident',
         start: {
           line: 153,
-          column: 5,
+          column: 17,
         },
         end: {
           line: 153,
+          column: 20,
+        },
+        value: 'code',
+      },
+      {
+        type: 'operator',
+        start: {
+          line: 154,
+          column: 5,
+        },
+        end: {
+          line: 154,
           column: 5,
         },
         value: '}',
@@ -3126,84 +3114,36 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 155,
+          line: 156,
           column: 5,
         },
         end: {
-          line: 155,
-          column: 11,
-        },
-        value: 'message',
-      },
-      {
-        type: 'ident',
-        start: {
-          line: 155,
-          column: 13,
-        },
-        end: {
-          line: 155,
-          column: 28,
-        },
-        value: 'registerResponse',
-      },
-      {
-        type: 'operator',
-        start: {
-          line: 155,
-          column: 30,
-        },
-        end: {
-          line: 155,
-          column: 30,
-        },
-        value: '=',
-      },
-      {
-        type: 'number',
-        start: {
-          line: 155,
-          column: 32,
-        },
-        end: {
-          line: 155,
-          column: 37,
-        },
-        value: '0x2001',
-      },
-      {
-        type: 'operator',
-        start: {
-          line: 155,
-          column: 39,
-        },
-        end: {
-          line: 155,
-          column: 39,
-        },
-        value: '{',
-      },
-      {
-        type: 'ident',
-        start: {
           line: 156,
-          column: 7,
-        },
-        end: {
-          line: 156,
-          column: 10,
+          column: 8,
         },
         value: 'enum',
       },
       {
-        type: 'operator',
+        type: 'ident',
         start: {
           line: 156,
-          column: 12,
+          column: 10,
         },
         end: {
           line: 156,
-          column: 12,
+          column: 29,
+        },
+        value: 'registerResponseCode',
+      },
+      {
+        type: 'operator',
+        start: {
+          line: 156,
+          column: 31,
+        },
+        end: {
+          line: 156,
+          column: 31,
         },
         value: '{',
       },
@@ -3211,11 +3151,11 @@ module.exports = {
         type: 'ident',
         start: {
           line: 157,
-          column: 9,
+          column: 7,
         },
         end: {
           line: 157,
-          column: 10,
+          column: 8,
         },
         value: 'OK',
       },
@@ -3223,11 +3163,11 @@ module.exports = {
         type: 'operator',
         start: {
           line: 157,
-          column: 26,
+          column: 24,
         },
         end: {
           line: 157,
-          column: 26,
+          column: 24,
         },
         value: '=',
       },
@@ -3235,11 +3175,11 @@ module.exports = {
         type: 'number',
         start: {
           line: 157,
-          column: 28,
+          column: 26,
         },
         end: {
           line: 157,
-          column: 31,
+          column: 29,
         },
         value: '0x00',
       },
@@ -3247,11 +3187,11 @@ module.exports = {
         type: 'ident',
         start: {
           line: 158,
-          column: 9,
+          column: 7,
         },
         end: {
           line: 158,
-          column: 24,
+          column: 22,
         },
         value: 'NICK_UNAVAILABLE',
       },
@@ -3259,11 +3199,11 @@ module.exports = {
         type: 'operator',
         start: {
           line: 158,
-          column: 26,
+          column: 24,
         },
         end: {
           line: 158,
-          column: 26,
+          column: 24,
         },
         value: '=',
       },
@@ -3271,11 +3211,11 @@ module.exports = {
         type: 'number',
         start: {
           line: 158,
-          column: 28,
+          column: 26,
         },
         end: {
           line: 158,
-          column: 31,
+          column: 29,
         },
         value: '0x01',
       },
@@ -3283,11 +3223,11 @@ module.exports = {
         type: 'ident',
         start: {
           line: 159,
-          column: 9,
+          column: 7,
         },
         end: {
           line: 159,
-          column: 24,
+          column: 22,
         },
         value: 'INVALID_PASSWORD',
       },
@@ -3295,11 +3235,11 @@ module.exports = {
         type: 'operator',
         start: {
           line: 159,
-          column: 26,
+          column: 24,
         },
         end: {
           line: 159,
-          column: 26,
+          column: 24,
         },
         value: '=',
       },
@@ -3307,11 +3247,11 @@ module.exports = {
         type: 'number',
         start: {
           line: 159,
-          column: 28,
+          column: 26,
         },
         end: {
           line: 159,
-          column: 31,
+          column: 29,
         },
         value: '0x02',
       },
@@ -3319,34 +3259,10 @@ module.exports = {
         type: 'operator',
         start: {
           line: 160,
-          column: 7,
-        },
-        end: {
-          line: 160,
-          column: 7,
-        },
-        value: '}',
-      },
-      {
-        type: 'ident',
-        start: {
-          line: 160,
-          column: 9,
-        },
-        end: {
-          line: 160,
-          column: 20,
-        },
-        value: 'responseCode',
-      },
-      {
-        type: 'operator',
-        start: {
-          line: 161,
           column: 5,
         },
         end: {
-          line: 161,
+          line: 160,
           column: 5,
         },
         value: '}',
@@ -3354,11 +3270,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 163,
+          line: 161,
           column: 5,
         },
         end: {
-          line: 163,
+          line: 161,
           column: 11,
         },
         value: 'message',
@@ -3366,11 +3282,107 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 163,
+          line: 161,
           column: 13,
         },
         end: {
+          line: 161,
+          column: 28,
+        },
+        value: 'registerResponse',
+      },
+      {
+        type: 'operator',
+        start: {
+          line: 161,
+          column: 30,
+        },
+        end: {
+          line: 161,
+          column: 30,
+        },
+        value: '=',
+      },
+      {
+        type: 'number',
+        start: {
+          line: 161,
+          column: 32,
+        },
+        end: {
+          line: 161,
+          column: 37,
+        },
+        value: '0x2001',
+      },
+      {
+        type: 'operator',
+        start: {
+          line: 161,
+          column: 39,
+        },
+        end: {
+          line: 161,
+          column: 39,
+        },
+        value: '{',
+      },
+      {
+        type: 'ident',
+        start: {
+          line: 162,
+          column: 7,
+        },
+        end: {
+          line: 162,
+          column: 26,
+        },
+        value: 'registerResponseCode',
+      },
+      {
+        type: 'ident',
+        start: {
+          line: 162,
+          column: 28,
+        },
+        end: {
+          line: 162,
+          column: 31,
+        },
+        value: 'code',
+      },
+      {
+        type: 'operator',
+        start: {
           line: 163,
+          column: 5,
+        },
+        end: {
+          line: 163,
+          column: 5,
+        },
+        value: '}',
+      },
+      {
+        type: 'ident',
+        start: {
+          line: 165,
+          column: 5,
+        },
+        end: {
+          line: 165,
+          column: 11,
+        },
+        value: 'message',
+      },
+      {
+        type: 'ident',
+        start: {
+          line: 165,
+          column: 13,
+        },
+        end: {
+          line: 165,
           column: 33,
         },
         value: 'nickAvailableResponse',
@@ -3378,11 +3390,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 163,
+          line: 165,
           column: 35,
         },
         end: {
-          line: 163,
+          line: 165,
           column: 35,
         },
         value: '=',
@@ -3390,11 +3402,11 @@ module.exports = {
       {
         type: 'number',
         start: {
-          line: 163,
+          line: 165,
           column: 37,
         },
         end: {
-          line: 163,
+          line: 165,
           column: 42,
         },
         value: '0x2002',
@@ -3402,11 +3414,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 163,
+          line: 165,
           column: 44,
         },
         end: {
-          line: 163,
+          line: 165,
           column: 44,
         },
         value: '{',
@@ -3414,11 +3426,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 164,
+          line: 166,
           column: 7,
         },
         end: {
-          line: 164,
+          line: 166,
           column: 17,
         },
         value: 'shortString',
@@ -3426,11 +3438,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 164,
+          line: 166,
           column: 19,
         },
         end: {
-          line: 164,
+          line: 166,
           column: 22,
         },
         value: 'nick',
@@ -3438,11 +3450,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 165,
+          line: 167,
           column: 7,
         },
         end: {
-          line: 165,
+          line: 167,
           column: 10,
         },
         value: 'bool',
@@ -3450,11 +3462,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 165,
+          line: 167,
           column: 19,
         },
         end: {
-          line: 165,
+          line: 167,
           column: 29,
         },
         value: 'isAvailable',
@@ -3462,11 +3474,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 166,
+          line: 168,
           column: 5,
         },
         end: {
-          line: 166,
+          line: 168,
           column: 5,
         },
         value: '}',
@@ -3474,11 +3486,167 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 168,
+          line: 170,
           column: 5,
         },
         end: {
-          line: 168,
+          line: 170,
+          column: 8,
+        },
+        value: 'enum',
+      },
+      {
+        type: 'ident',
+        start: {
+          line: 170,
+          column: 10,
+        },
+        end: {
+          line: 170,
+          column: 26,
+        },
+        value: 'loginResponseCode',
+      },
+      {
+        type: 'operator',
+        start: {
+          line: 170,
+          column: 28,
+        },
+        end: {
+          line: 170,
+          column: 28,
+        },
+        value: '{',
+      },
+      {
+        type: 'ident',
+        start: {
+          line: 171,
+          column: 7,
+        },
+        end: {
+          line: 171,
+          column: 8,
+        },
+        value: 'OK',
+      },
+      {
+        type: 'operator',
+        start: {
+          line: 171,
+          column: 27,
+        },
+        end: {
+          line: 171,
+          column: 27,
+        },
+        value: '=',
+      },
+      {
+        type: 'number',
+        start: {
+          line: 171,
+          column: 29,
+        },
+        end: {
+          line: 171,
+          column: 32,
+        },
+        value: '0x00',
+      },
+      {
+        type: 'ident',
+        start: {
+          line: 172,
+          column: 7,
+        },
+        end: {
+          line: 172,
+          column: 25,
+        },
+        value: 'INVALID_CREDENTIALS',
+      },
+      {
+        type: 'operator',
+        start: {
+          line: 172,
+          column: 27,
+        },
+        end: {
+          line: 172,
+          column: 27,
+        },
+        value: '=',
+      },
+      {
+        type: 'number',
+        start: {
+          line: 172,
+          column: 29,
+        },
+        end: {
+          line: 172,
+          column: 32,
+        },
+        value: '0x01',
+      },
+      {
+        type: 'ident',
+        start: {
+          line: 173,
+          column: 7,
+        },
+        end: {
+          line: 173,
+          column: 23,
+        },
+        value: 'ALREADY_LOGGED_IN',
+      },
+      {
+        type: 'operator',
+        start: {
+          line: 173,
+          column: 27,
+        },
+        end: {
+          line: 173,
+          column: 27,
+        },
+        value: '=',
+      },
+      {
+        type: 'number',
+        start: {
+          line: 173,
+          column: 29,
+        },
+        end: {
+          line: 173,
+          column: 32,
+        },
+        value: '0x02',
+      },
+      {
+        type: 'operator',
+        start: {
+          line: 174,
+          column: 5,
+        },
+        end: {
+          line: 174,
+          column: 5,
+        },
+        value: '}',
+      },
+      {
+        type: 'ident',
+        start: {
+          line: 175,
+          column: 5,
+        },
+        end: {
+          line: 175,
           column: 11,
         },
         value: 'message',
@@ -3486,11 +3654,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 168,
+          line: 175,
           column: 13,
         },
         end: {
-          line: 168,
+          line: 175,
           column: 25,
         },
         value: 'loginResponse',
@@ -3498,11 +3666,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 168,
+          line: 175,
           column: 27,
         },
         end: {
-          line: 168,
+          line: 175,
           column: 27,
         },
         value: '=',
@@ -3510,11 +3678,11 @@ module.exports = {
       {
         type: 'number',
         start: {
-          line: 168,
+          line: 175,
           column: 29,
         },
         end: {
-          line: 168,
+          line: 175,
           column: 34,
         },
         value: '0x2003',
@@ -3522,11 +3690,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 168,
+          line: 175,
           column: 36,
         },
         end: {
-          line: 168,
+          line: 175,
           column: 36,
         },
         value: '{',
@@ -3534,167 +3702,35 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 169,
+          line: 176,
           column: 7,
         },
         end: {
-          line: 169,
-          column: 10,
+          line: 176,
+          column: 23,
         },
-        value: 'enum',
-      },
-      {
-        type: 'operator',
-        start: {
-          line: 169,
-          column: 12,
-        },
-        end: {
-          line: 169,
-          column: 12,
-        },
-        value: '{',
+        value: 'loginResponseCode',
       },
       {
         type: 'ident',
         start: {
-          line: 170,
-          column: 9,
-        },
-        end: {
-          line: 170,
-          column: 10,
-        },
-        value: 'OK',
-      },
-      {
-        type: 'operator',
-        start: {
-          line: 170,
-          column: 29,
-        },
-        end: {
-          line: 170,
-          column: 29,
-        },
-        value: '=',
-      },
-      {
-        type: 'number',
-        start: {
-          line: 170,
-          column: 31,
-        },
-        end: {
-          line: 170,
-          column: 34,
-        },
-        value: '0x00',
-      },
-      {
-        type: 'ident',
-        start: {
-          line: 171,
-          column: 9,
-        },
-        end: {
-          line: 171,
-          column: 27,
-        },
-        value: 'INVALID_CREDENTIALS',
-      },
-      {
-        type: 'operator',
-        start: {
-          line: 171,
-          column: 29,
-        },
-        end: {
-          line: 171,
-          column: 29,
-        },
-        value: '=',
-      },
-      {
-        type: 'number',
-        start: {
-          line: 171,
-          column: 31,
-        },
-        end: {
-          line: 171,
-          column: 34,
-        },
-        value: '0x01',
-      },
-      {
-        type: 'ident',
-        start: {
-          line: 172,
-          column: 9,
-        },
-        end: {
-          line: 172,
+          line: 176,
           column: 25,
         },
-        value: 'ALREADY_LOGGED_IN',
+        end: {
+          line: 176,
+          column: 28,
+        },
+        value: 'code',
       },
       {
         type: 'operator',
         start: {
-          line: 172,
-          column: 29,
-        },
-        end: {
-          line: 172,
-          column: 29,
-        },
-        value: '=',
-      },
-      {
-        type: 'number',
-        start: {
-          line: 172,
-          column: 31,
-        },
-        end: {
-          line: 172,
-          column: 34,
-        },
-        value: '0x02',
-      },
-      {
-        type: 'operator',
-        start: {
-          line: 173,
-          column: 7,
-        },
-        end: {
-          line: 173,
-          column: 7,
-        },
-        value: '}',
-      },
-      {
-        type: 'ident',
-        start: {
-          line: 173,
-          column: 9,
-        },
-        end: {
-          line: 173,
-          column: 20,
-        },
-        value: 'responseCode',
-      },
-      {
-        type: 'operator',
-        start: {
-          line: 174,
+          line: 177,
           column: 5,
         },
         end: {
-          line: 174,
+          line: 177,
           column: 5,
         },
         value: '}',
@@ -3702,11 +3738,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 176,
+          line: 179,
           column: 5,
         },
         end: {
-          line: 176,
+          line: 179,
           column: 11,
         },
         value: 'message',
@@ -3714,11 +3750,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 176,
+          line: 179,
           column: 13,
         },
         end: {
-          line: 176,
+          line: 179,
           column: 27,
         },
         value: 'messageReceived',
@@ -3726,11 +3762,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 176,
+          line: 179,
           column: 29,
         },
         end: {
-          line: 176,
+          line: 179,
           column: 29,
         },
         value: '=',
@@ -3738,11 +3774,11 @@ module.exports = {
       {
         type: 'number',
         start: {
-          line: 176,
+          line: 179,
           column: 31,
         },
         end: {
-          line: 176,
+          line: 179,
           column: 36,
         },
         value: '0x2100',
@@ -3750,11 +3786,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 176,
+          line: 179,
           column: 38,
         },
         end: {
-          line: 176,
+          line: 179,
           column: 38,
         },
         value: '{',
@@ -3762,11 +3798,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 177,
+          line: 180,
           column: 7,
         },
         end: {
-          line: 177,
+          line: 180,
           column: 10,
         },
         value: 'bool',
@@ -3774,11 +3810,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 177,
+          line: 180,
           column: 16,
         },
         end: {
-          line: 177,
+          line: 180,
           column: 24,
         },
         value: 'isPrivate',
@@ -3786,11 +3822,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 178,
+          line: 181,
           column: 7,
         },
         end: {
-          line: 178,
+          line: 181,
           column: 14,
         },
         value: 'playerId',
@@ -3798,11 +3834,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 178,
+          line: 181,
           column: 16,
         },
         end: {
-          line: 178,
+          line: 181,
           column: 21,
         },
         value: 'sender',
@@ -3810,11 +3846,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 179,
+          line: 182,
           column: 7,
         },
         end: {
-          line: 179,
+          line: 182,
           column: 12,
         },
         value: 'string',
@@ -3822,11 +3858,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 179,
+          line: 182,
           column: 16,
         },
         end: {
-          line: 179,
+          line: 182,
           column: 19,
         },
         value: 'text',
@@ -3834,11 +3870,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 180,
+          line: 183,
           column: 5,
         },
         end: {
-          line: 180,
+          line: 183,
           column: 5,
         },
         value: '}',
@@ -3846,11 +3882,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 181,
+          line: 184,
           column: 3,
         },
         end: {
-          line: 181,
+          line: 184,
           column: 3,
         },
         value: '}',
@@ -3858,11 +3894,11 @@ module.exports = {
       {
         type: 'comment',
         start: {
-          line: 183,
+          line: 186,
           column: 3,
         },
         end: {
-          line: 183,
+          line: 186,
           column: 44,
         },
         value: ' Unreliable server messages, from 0x3000',
@@ -3870,11 +3906,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 184,
+          line: 187,
           column: 3,
         },
         end: {
-          line: 184,
+          line: 187,
           column: 3,
         },
         value: '{',
@@ -3882,11 +3918,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 185,
+          line: 188,
           column: 5,
         },
         end: {
-          line: 185,
+          line: 188,
           column: 11,
         },
         value: 'message',
@@ -3894,11 +3930,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 185,
+          line: 188,
           column: 13,
         },
         end: {
-          line: 185,
+          line: 188,
           column: 22,
         },
         value: 'worldState',
@@ -3906,11 +3942,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 185,
+          line: 188,
           column: 24,
         },
         end: {
-          line: 185,
+          line: 188,
           column: 24,
         },
         value: '=',
@@ -3918,11 +3954,11 @@ module.exports = {
       {
         type: 'number',
         start: {
-          line: 185,
+          line: 188,
           column: 26,
         },
         end: {
-          line: 185,
+          line: 188,
           column: 31,
         },
         value: '0x3000',
@@ -3930,11 +3966,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 185,
+          line: 188,
           column: 33,
         },
         end: {
-          line: 185,
+          line: 188,
           column: 33,
         },
         value: '{',
@@ -3942,11 +3978,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 186,
+          line: 189,
           column: 7,
         },
         end: {
-          line: 186,
+          line: 189,
           column: 17,
         },
         value: 'mapFragment',
@@ -3954,11 +3990,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 186,
+          line: 189,
           column: 21,
         },
         end: {
-          line: 186,
+          line: 189,
           column: 31,
         },
         value: 'mapFragment',
@@ -3966,11 +4002,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 187,
+          line: 190,
           column: 7,
         },
         end: {
-          line: 187,
+          line: 190,
           column: 19,
         },
         value: 'currentPlayer',
@@ -3978,11 +4014,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 187,
+          line: 190,
           column: 21,
         },
         end: {
-          line: 187,
+          line: 190,
           column: 33,
         },
         value: 'currentPlayer',
@@ -3990,11 +4026,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 188,
+          line: 191,
           column: 7,
         },
         end: {
-          line: 188,
+          line: 191,
           column: 10,
         },
         value: 'list',
@@ -4002,11 +4038,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 188,
+          line: 191,
           column: 11,
         },
         end: {
-          line: 188,
+          line: 191,
           column: 11,
         },
         value: '<',
@@ -4014,11 +4050,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 188,
+          line: 191,
           column: 12,
         },
         end: {
-          line: 188,
+          line: 191,
           column: 17,
         },
         value: 'player',
@@ -4026,11 +4062,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 188,
+          line: 191,
           column: 18,
         },
         end: {
-          line: 188,
+          line: 191,
           column: 18,
         },
         value: '>',
@@ -4038,11 +4074,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 188,
+          line: 191,
           column: 21,
         },
         end: {
-          line: 188,
+          line: 191,
           column: 27,
         },
         value: 'players',
@@ -4050,11 +4086,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 189,
+          line: 192,
           column: 5,
         },
         end: {
-          line: 189,
+          line: 192,
           column: 5,
         },
         value: '}',
@@ -4062,11 +4098,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 191,
+          line: 194,
           column: 5,
         },
         end: {
-          line: 191,
+          line: 194,
           column: 11,
         },
         value: 'message',
@@ -4074,11 +4110,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 191,
+          line: 194,
           column: 13,
         },
         end: {
-          line: 191,
+          line: 194,
           column: 21,
         },
         value: 'timestamp',
@@ -4086,11 +4122,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 191,
+          line: 194,
           column: 23,
         },
         end: {
-          line: 191,
+          line: 194,
           column: 23,
         },
         value: '=',
@@ -4098,11 +4134,11 @@ module.exports = {
       {
         type: 'number',
         start: {
-          line: 191,
+          line: 194,
           column: 25,
         },
         end: {
-          line: 191,
+          line: 194,
           column: 30,
         },
         value: '0x3001',
@@ -4110,11 +4146,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 191,
+          line: 194,
           column: 32,
         },
         end: {
-          line: 191,
+          line: 194,
           column: 32,
         },
         value: '{',
@@ -4122,11 +4158,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 192,
+          line: 195,
           column: 7,
         },
         end: {
-          line: 192,
+          line: 195,
           column: 13,
         },
         value: 'float64',
@@ -4134,11 +4170,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 192,
+          line: 195,
           column: 15,
         },
         end: {
-          line: 192,
+          line: 195,
           column: 18,
         },
         value: 'time',
@@ -4146,11 +4182,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 193,
+          line: 196,
           column: 5,
         },
         end: {
-          line: 193,
+          line: 196,
           column: 5,
         },
         value: '}',
@@ -4158,11 +4194,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 194,
+          line: 197,
           column: 3,
         },
         end: {
-          line: 194,
+          line: 197,
           column: 3,
         },
         value: '}',
@@ -4170,11 +4206,11 @@ module.exports = {
       {
         type: 'comment',
         start: {
-          line: 196,
+          line: 199,
           column: 3,
         },
         end: {
-          line: 196,
+          line: 199,
           column: 50,
         },
         value: ' Unreliable server debug messages, from 0x7000',
@@ -4182,11 +4218,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 197,
+          line: 200,
           column: 3,
         },
         end: {
-          line: 197,
+          line: 200,
           column: 3,
         },
         value: '{',
@@ -4194,11 +4230,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 198,
+          line: 201,
           column: 5,
         },
         end: {
-          line: 198,
+          line: 201,
           column: 10,
         },
         value: 'struct',
@@ -4206,11 +4242,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 198,
+          line: 201,
           column: 12,
         },
         end: {
-          line: 198,
+          line: 201,
           column: 22,
         },
         value: 'debugMarker',
@@ -4218,11 +4254,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 198,
+          line: 201,
           column: 24,
         },
         end: {
-          line: 198,
+          line: 201,
           column: 24,
         },
         value: '{',
@@ -4230,11 +4266,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 199,
+          line: 202,
           column: 7,
         },
         end: {
-          line: 199,
+          line: 202,
           column: 13,
         },
         value: 'float32',
@@ -4242,11 +4278,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 199,
+          line: 202,
           column: 15,
         },
         end: {
-          line: 199,
+          line: 202,
           column: 15,
         },
         value: 'x',
@@ -4254,11 +4290,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 200,
+          line: 203,
           column: 7,
         },
         end: {
-          line: 200,
+          line: 203,
           column: 13,
         },
         value: 'float32',
@@ -4266,11 +4302,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 200,
+          line: 203,
           column: 15,
         },
         end: {
-          line: 200,
+          line: 203,
           column: 15,
         },
         value: 'y',
@@ -4278,11 +4314,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 201,
+          line: 204,
           column: 7,
         },
         end: {
-          line: 201,
+          line: 204,
           column: 12,
         },
         value: 'uint16',
@@ -4290,11 +4326,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 201,
+          line: 204,
           column: 15,
         },
         end: {
-          line: 201,
+          line: 204,
           column: 17,
         },
         value: 'hue',
@@ -4302,11 +4338,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 202,
+          line: 205,
           column: 5,
         },
         end: {
-          line: 202,
+          line: 205,
           column: 5,
         },
         value: '}',
@@ -4314,11 +4350,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 204,
+          line: 207,
           column: 5,
         },
         end: {
-          line: 204,
+          line: 207,
           column: 11,
         },
         value: 'message',
@@ -4326,11 +4362,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 204,
+          line: 207,
           column: 13,
         },
         end: {
-          line: 204,
+          line: 207,
           column: 24,
         },
         value: 'debugMarkers',
@@ -4338,11 +4374,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 204,
+          line: 207,
           column: 26,
         },
         end: {
-          line: 204,
+          line: 207,
           column: 26,
         },
         value: '=',
@@ -4350,11 +4386,11 @@ module.exports = {
       {
         type: 'number',
         start: {
-          line: 204,
+          line: 207,
           column: 28,
         },
         end: {
-          line: 204,
+          line: 207,
           column: 33,
         },
         value: '0x7000',
@@ -4362,11 +4398,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 204,
+          line: 207,
           column: 35,
         },
         end: {
-          line: 204,
+          line: 207,
           column: 35,
         },
         value: '{',
@@ -4374,11 +4410,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 205,
+          line: 208,
           column: 7,
         },
         end: {
-          line: 205,
+          line: 208,
           column: 10,
         },
         value: 'list',
@@ -4386,11 +4422,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 205,
+          line: 208,
           column: 11,
         },
         end: {
-          line: 205,
+          line: 208,
           column: 11,
         },
         value: '<',
@@ -4398,11 +4434,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 205,
+          line: 208,
           column: 12,
         },
         end: {
-          line: 205,
+          line: 208,
           column: 22,
         },
         value: 'debugMarker',
@@ -4410,11 +4446,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 205,
+          line: 208,
           column: 23,
         },
         end: {
-          line: 205,
+          line: 208,
           column: 23,
         },
         value: '>',
@@ -4422,11 +4458,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 205,
+          line: 208,
           column: 25,
         },
         end: {
-          line: 205,
+          line: 208,
           column: 31,
         },
         value: 'markers',
@@ -4434,11 +4470,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 206,
+          line: 209,
           column: 5,
         },
         end: {
-          line: 206,
+          line: 209,
           column: 5,
         },
         value: '}',
@@ -4446,11 +4482,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 208,
+          line: 211,
           column: 5,
         },
         end: {
-          line: 208,
+          line: 211,
           column: 11,
         },
         value: 'message',
@@ -4458,11 +4494,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 208,
+          line: 211,
           column: 13,
         },
         end: {
-          line: 208,
+          line: 211,
           column: 28,
         },
         value: 'debugVarDumpJSON',
@@ -4470,11 +4506,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 208,
+          line: 211,
           column: 30,
         },
         end: {
-          line: 208,
+          line: 211,
           column: 30,
         },
         value: '=',
@@ -4482,11 +4518,11 @@ module.exports = {
       {
         type: 'number',
         start: {
-          line: 208,
+          line: 211,
           column: 32,
         },
         end: {
-          line: 208,
+          line: 211,
           column: 37,
         },
         value: '0x7001',
@@ -4494,11 +4530,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 208,
+          line: 211,
           column: 39,
         },
         end: {
-          line: 208,
+          line: 211,
           column: 39,
         },
         value: '{',
@@ -4506,11 +4542,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 209,
+          line: 212,
           column: 7,
         },
         end: {
-          line: 209,
+          line: 212,
           column: 12,
         },
         value: 'string',
@@ -4518,11 +4554,11 @@ module.exports = {
       {
         type: 'ident',
         start: {
-          line: 209,
+          line: 212,
           column: 14,
         },
         end: {
-          line: 209,
+          line: 212,
           column: 17,
         },
         value: 'vars',
@@ -4530,11 +4566,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 210,
+          line: 213,
           column: 5,
         },
         end: {
-          line: 210,
+          line: 213,
           column: 5,
         },
         value: '}',
@@ -4542,11 +4578,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 211,
+          line: 214,
           column: 3,
         },
         end: {
-          line: 211,
+          line: 214,
           column: 3,
         },
         value: '}',
@@ -4554,11 +4590,11 @@ module.exports = {
       {
         type: 'operator',
         start: {
-          line: 212,
+          line: 215,
           column: 1,
         },
         end: {
-          line: 212,
+          line: 215,
           column: 1,
         },
         value: '}',
