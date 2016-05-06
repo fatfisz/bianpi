@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 1,
     column: 3,
-    message: 'Unexpected character \'x\'. Number (started at 1:1) is unfinished.',
+    message: 'Unexpected character \'x\'. Number started at 1:1 is unfinished.',
   },
 };
