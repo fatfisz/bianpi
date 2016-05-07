@@ -432,16 +432,16 @@ const primitiveTokenType = /^(ident|number|string)$/;
 const targetListOperator = /^[,)]$/;
 const typeParameterListOperator = /^[,>]$/;
 
-function isToken({ type, value }, expectedType, expectedValue) {
-  return type === expectedType && value === expectedValue;
-}
-
 function isDeclarationMode({ type, value }) {
   return type === 'ident' && declarationMode.test(value);
 }
 
 function isExpressionOperator({ type, value }) {
   return type === 'operator' && expressionOperatorValue.test(value);
+}
+
+function isOperator$1({ type, value }, expectedValue) {
+  return type === 'operator' && value === expectedValue;
 }
 
 function isPrimitiveExpressionValue({ type }) {
@@ -482,7 +482,7 @@ function blockParserMixin(Parser) {
         `ending with ${operatorToLabel['}']}`
       );
       const closingBrace = this.popToken();
-      if (!isToken(closingBrace, 'operator', '}')) {
+      if (!isOperator$1(closingBrace, '}')) {
         throw this.getUnexpectedError(
           `${operatorToLabel['}']} for a block`,
           closingBrace
@@ -517,7 +517,7 @@ function constParserMixin(Parser) {
         `followed by ${operatorToLabel['=']}`
       );
       const assignment = this.popToken();
-      if (!isToken(assignment, 'operator', '=')) {
+      if (!isOperator$1(assignment, '=')) {
         throw this.getUnexpectedError(
           `${operatorToLabel['=']} after a const name`,
           assignment
@@ -602,7 +602,7 @@ function decoratedDeclarationParserMixin(Parser) {
       const decorators = [];
       let decoratorOperator = firstDecorator;
 
-      while (isToken(decoratorOperator, 'operator', '@')) {
+      while (isOperator$1(decoratorOperator, '@')) {
         this.popToken();
 
         this.expectToken(
@@ -624,7 +624,7 @@ function decoratedDeclarationParserMixin(Parser) {
           `followed by ${operatorToLabel['(']}`
         );
         const openingParen = this.popToken();
-        if (!isToken(openingParen, 'operator', '(')) {
+        if (!isOperator$1(openingParen, '(')) {
           throw this.getUnexpectedError(
             `${operatorToLabel['(']} after a decorator name`,
             openingParen
@@ -709,7 +709,7 @@ function enumParserMixin(Parser) {
         `followed by ${operatorToLabel['{']}`
       );
       const openingBrace = this.popToken();
-      if (!isToken(openingBrace, 'operator', '{')) {
+      if (!isOperator$1(openingBrace, '{')) {
         throw this.getUnexpectedError(
           `${operatorToLabel['{']} after an enum name`,
           openingBrace
@@ -733,7 +733,7 @@ function enumParserMixin(Parser) {
         );
         const closingBrace = this.peekToken();
 
-        if (isToken(closingBrace, 'operator', '}')) {
+        if (isOperator$1(closingBrace, '}')) {
           finished = true;
         } else {
           values.push(this.parseEnumValue(expectedLength));
@@ -759,7 +759,7 @@ function enumParserMixin(Parser) {
         `followed by ${operatorToLabel['=']}`
       );
       const assignment = this.popToken();
-      if (!isToken(assignment, 'operator', '=')) {
+      if (!isOperator$1(assignment, '=')) {
         throw this.getUnexpectedError(
           `${operatorToLabel['=']} after an enum value name`,
           assignment
@@ -824,7 +824,7 @@ function expressionParserMixin(Parser) {
     parseExpressionValue() {
       const value = this.popToken();
 
-      if (isToken(value, 'operator', '(')) {
+      if (isOperator$1(value, '(')) {
         this.expectToken(
           operatorToLabel['('],
           value,
@@ -838,7 +838,7 @@ function expressionParserMixin(Parser) {
           `ending with ${operatorToLabel[')']}`
         );
         const closingParen = this.popToken();
-        if (!isToken(closingParen, 'operator', ')')) {
+        if (!isOperator$1(closingParen, ')')) {
           throw this.getUnexpectedError(
             `${operatorToLabel[')']} for an expression in parentheses`,
             closingParen
@@ -875,7 +875,7 @@ function fieldParserMixin(Parser) {
         type,
         'followed by a field name'
       );
-      if (isToken(this.peekToken(), 'operator', '[')) {
+      if (isOperator$1(this.peekToken(), '[')) {
         const openingBracket = this.popToken();
 
         this.expectToken(
@@ -892,7 +892,7 @@ function fieldParserMixin(Parser) {
           `followed by ${operatorToLabel[']']}`
         );
         const closingBracket = this.popToken();
-        if (!isToken(closingBracket, 'operator', ']')) {
+        if (!isOperator$1(closingBracket, ']')) {
           throw this.getUnexpectedError(
             `${operatorToLabel[']']} after an array length expression`,
             closingBracket
@@ -949,7 +949,7 @@ function messageParserMixin(Parser) {
         `followed by ${operatorToLabel['=']}`
       );
       const assignment = this.popToken();
-      if (!isToken(assignment, 'operator', '=')) {
+      if (!isOperator$1(assignment, '=')) {
         throw this.getUnexpectedError(
           `${operatorToLabel['=']} after a message name`,
           assignment
@@ -975,7 +975,7 @@ function messageParserMixin(Parser) {
         `followed by ${operatorToLabel['{']}`
       );
       const openingBrace = this.popToken();
-      if (!isToken(openingBrace, 'operator', '{')) {
+      if (!isOperator$1(openingBrace, '{')) {
         throw this.getUnexpectedError(
           `${operatorToLabel['{']} after a message id`,
           openingBrace
@@ -993,7 +993,7 @@ function messageParserMixin(Parser) {
         );
         const closingBrace = this.peekToken();
 
-        if (isToken(closingBrace, 'operator', '}')) {
+        if (isOperator$1(closingBrace, '}')) {
           finished = true;
         } else {
           fields.push(this.parseField());
@@ -1049,7 +1049,7 @@ function structParserMixin(Parser) {
         `followed by ${operatorToLabel['{']}`
       );
       const openingBrace = this.popToken();
-      if (!isToken(openingBrace, 'operator', '{')) {
+      if (!isOperator$1(openingBrace, '{')) {
         throw this.getUnexpectedError(
           `${operatorToLabel['{']} after a struct name`,
           openingBrace
@@ -1067,7 +1067,7 @@ function structParserMixin(Parser) {
         );
         const closingBrace = this.peekToken();
 
-        if (isToken(closingBrace, 'operator', '}')) {
+        if (isOperator$1(closingBrace, '}')) {
           finished = true;
         } else {
           fields.push(this.parseField());
@@ -1096,7 +1096,7 @@ function structNameParserMixin(Parser) {
       if (this.hasTokens) {
         const next = this.peekToken();
 
-        if (isToken(next, 'operator', '<')) {
+        if (isOperator$1(next, '<')) {
           const parameters = this.parseStructNameParameters();
 
           props.parameters = parameters;
@@ -1159,7 +1159,7 @@ function typeParserMixin(Parser) {
       if (this.hasTokens) {
         const next = this.peekToken();
 
-        if (isToken(next, 'operator', '<')) {
+        if (isOperator$1(next, '<')) {
           const parameters = this.parseTypeParameters();
 
           props.parameters = parameters;
