@@ -27,8 +27,8 @@ module.exports = function register(grunt) {
               'module.exports=': 'export default',
             },
           }),
-          rollupPluginIncludePaths(),
-          rollupPluginNodeResolve(),
+          rollupPluginIncludePaths({ extensions: [] }),
+          rollupPluginNodeResolve({ extensions: [] }),
         ],
         format: 'cjs',
       },
@@ -40,7 +40,7 @@ module.exports = function register(grunt) {
       test: {
         files: {
           'tmp/lexer.js': 'lib/lexer.js',
-          'tmp/parser.js': 'lib/parser.js',
+          'tmp/parser.js': 'lib/parser/index.js',
         },
       },
     },
