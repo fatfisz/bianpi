@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 3,
     column: 1,
-    message: 'Unexpected end of file. Assignment operator \'=\' at 2:6 should be followed by a hexadecimal number.',
+    message: 'Unexpected end of file. Assignment operator \'=\' at 2:6 should be followed by an 8-bit, 16-bit, or 32-bit hexadecimal number.',
   },
 };

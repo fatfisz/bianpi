@@ -397,20 +397,26 @@ function isDeclarationMode({ type, value }) {
   return type === 'ident' && declarationMode.test(value);
 }
 
-function isEnumValue({ value: { length } }) {
-  return length === 4 || length === 6 || length === 10;
-}
-
 function isExpressionOperator({ type, value }) {
   return type === 'operator' && expressionOperatorValue.test(value);
 }
 
-function isHexadecimalNumber({ type, value }) {
-  return type === 'number' && value.slice(0, 2) === '0x';
-}
-
 function isPrimitiveExpressionValue({ type }) {
   return primitiveTokenType.test(type);
+}
+
+function isRestrictedHexNumber({ type, value }, expectedLength = null) {
+  if (type !== 'number' || value.slice(0, 2) !== '0x') {
+    return false;
+  }
+
+  const { length } = value;
+
+  if (expectedLength === null) {
+    return length === 4 || length === 6 || length === 10;
+  }
+
+  return length - 2 === expectedLength;
 }
 
 function isTargetListOperator({ type, value }) {
@@ -794,28 +800,19 @@ class Parser {
       throw this.getUnexpectedError('an assignment operator \'=\'', assignment);
     }
 
+    const expectedNumber = expectedLength === null ?
+      'an 8-bit, 16-bit, or 32-bit hexadecimal number' :
+      dedent`${hexLengthToLabel[expectedLength]} hexadecimal number
+             (derived from preceding values)`;
+
     this.expectToken(
       'assignment operator \'=\'',
       assignment,
-      'followed by a hexadecimal number'
+      `followed by ${expectedNumber}`
     );
     const value = this.popToken();
-    if (!isHexadecimalNumber(value)) {
-      throw this.getUnexpectedError('a hexadecimal number', value);
-    }
-    if (expectedLength === null) {
-      if (!isEnumValue(value)) {
-        throw this.getUnexpectedError(
-          'an 8-bit, 16-bit, or 32-bit number',
-          value
-        );
-      }
-    } else if (value.value.length - 2 !== expectedLength) {
-      throw this.getUnexpectedError(
-        dedent`${hexLengthToLabel[expectedLength]} number
-               (derived from the previous values)`,
-        value
-      );
+    if (!isRestrictedHexNumber(value, expectedLength)) {
+      throw this.getUnexpectedError(expectedNumber, value);
     }
 
     return {
