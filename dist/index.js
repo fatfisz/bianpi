@@ -1093,15 +1093,11 @@ function structNameParserMixin(Parser) {
       const props = { name };
       let end = name.end;
 
-      if (this.hasTokens) {
-        const next = this.peekToken();
+      if (this.hasTokens && isOperator$1(this.peekToken(), '<')) {
+        const parameters = this.parseStructNameParameters();
 
-        if (isOperator$1(next, '<')) {
-          const parameters = this.parseStructNameParameters();
-
-          props.parameters = parameters;
-          end = parameters.end;
-        }
+        props.parameters = parameters;
+        end = parameters.end;
       }
 
       return {
@@ -1156,15 +1152,11 @@ function typeParserMixin(Parser) {
       const props = { name };
       let end = name.end;
 
-      if (this.hasTokens) {
-        const next = this.peekToken();
+      if (this.hasTokens && isOperator$1(this.peekToken(), '<')) {
+        const parameters = this.parseTypeParameters();
 
-        if (isOperator$1(next, '<')) {
-          const parameters = this.parseTypeParameters();
-
-          props.parameters = parameters;
-          end = parameters.end;
-        }
+        props.parameters = parameters;
+        end = parameters.end;
       }
 
       return {
