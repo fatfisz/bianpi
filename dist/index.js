@@ -723,26 +723,24 @@ function enumParserMixin(Parser) {
       );
       const values = [this.parseEnumValue()];
       const expectedLength = values[0].props.value.value.length - 2;
+      let finished = false;
 
-      this.expectToken(
-        'the enum declaration',
-        enumKeyword,
-        `ending with ${operatorToLabel['}']}`
-      );
-      let closingBrace = this.peekToken();
-
-      while (!isToken(closingBrace, 'operator', '}')) {
-        values.push(this.parseEnumValue(expectedLength));
-
+      while (!finished) {
         this.expectToken(
           'the enum declaration',
           enumKeyword,
           `ending with ${operatorToLabel['}']}`
         );
-        closingBrace = this.peekToken();
+        const closingBrace = this.peekToken();
+
+        if (isToken(closingBrace, 'operator', '}')) {
+          finished = true;
+        } else {
+          values.push(this.parseEnumValue(expectedLength));
+        }
       }
 
-      this.popToken();
+      const closingBrace = this.popToken();
 
       return {
         type: 'enum',
@@ -802,27 +800,17 @@ function expressionParserMixin(Parser) {
     parseExpression() {
       const firstValue = this.parseExpressionValue();
       const elements = [firstValue];
-      let operator;
 
-      if (this.hasTokens) {
-        operator = this.peekToken();
+      while (this.hasTokens && isExpressionOperator(this.peekToken())) {
+        const operator = this.popToken();
+        elements.push(operator);
 
-        while (isExpressionOperator(operator)) {
-          elements.push(this.popToken());
-
-          this.expectToken(
-            operatorToLabel[operator.value],
-            operator,
-            'followed by a value'
-          );
-          elements.push(this.parseExpressionValue());
-
-          if (this.hasTokens) {
-            operator = this.peekToken();
-          } else {
-            break;
-          }
-        }
+        this.expectToken(
+          operatorToLabel[operator.value],
+          operator,
+          'followed by a value'
+        );
+        elements.push(this.parseExpressionValue());
       }
 
       return {
@@ -850,7 +838,6 @@ function expressionParserMixin(Parser) {
           `ending with ${operatorToLabel[')']}`
         );
         const closingParen = this.popToken();
-
         if (!isToken(closingParen, 'operator', ')')) {
           throw this.getUnexpectedError(
             `${operatorToLabel[')']} for an expression in parentheses`,
@@ -996,26 +983,24 @@ function messageParserMixin(Parser) {
       }
 
       const fields = [];
+      let finished = false;
 
-      this.expectToken(
-        'the message declaration',
-        messageKeyword,
-        `ending with ${operatorToLabel['}']}`
-      );
-      let closingBrace = this.peekToken();
-
-      while (!isToken(closingBrace, 'operator', '}')) {
-        fields.push(this.parseField());
-
+      while (!finished) {
         this.expectToken(
           'the message declaration',
           messageKeyword,
           `ending with ${operatorToLabel['}']}`
         );
-        closingBrace = this.peekToken();
+        const closingBrace = this.peekToken();
+
+        if (isToken(closingBrace, 'operator', '}')) {
+          finished = true;
+        } else {
+          fields.push(this.parseField());
+        }
       }
 
-      this.popToken();
+      const closingBrace = this.popToken();
 
       return {
         type: 'message',
@@ -1072,26 +1057,24 @@ function structParserMixin(Parser) {
       }
 
       const fields = [];
+      let finished = false;
 
-      this.expectToken(
-        'the struct declaration',
-        structKeyword,
-        `ending with ${operatorToLabel['}']}`
-      );
-      let closingBrace = this.peekToken();
-
-      while (!isToken(closingBrace, 'operator', '}')) {
-        fields.push(this.parseField());
-
+      while (!finished) {
         this.expectToken(
           'the struct declaration',
           structKeyword,
           `ending with ${operatorToLabel['}']}`
         );
-        closingBrace = this.peekToken();
+        const closingBrace = this.peekToken();
+
+        if (isToken(closingBrace, 'operator', '}')) {
+          finished = true;
+        } else {
+          fields.push(this.parseField());
+        }
       }
 
-      this.popToken();
+      const closingBrace = this.popToken();
 
       return {
         type: 'struct',
