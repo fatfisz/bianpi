@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 3,
     column: 1,
-    message: 'Unexpected end of file. Field type at 2:3 should be followed by a field name.',
+    message: 'Unexpected end of file. The field type at 2:3 should be followed by a field name.',
   },
 };

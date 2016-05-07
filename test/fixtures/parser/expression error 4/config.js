@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Division operator \'/\' at 1:14 should be followed by a value.',
+    message: 'Unexpected end of file. The division operator \'/\' at 1:14 should be followed by a value.',
   },
 };

@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Comma \',\' at 1:16 should be followed by a type.',
+    message: 'Unexpected end of file. The comma \',\' at 1:16 should be followed by a type.',
   },
 };

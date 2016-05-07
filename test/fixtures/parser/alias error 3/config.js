@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Type at 1:7 should be followed by an alias name.',
+    message: 'Unexpected end of file. The type at 1:7 should be followed by an alias name.',
   },
 };

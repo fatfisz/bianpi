@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 3,
     column: 1,
-    message: 'Unexpected end of file. Struct declaration at 1:1 should be ending with a closing brace \'}\'.',
+    message: 'Unexpected end of file. The struct declaration at 1:1 should be ending with a closing brace \'}\'.',
   },
 };

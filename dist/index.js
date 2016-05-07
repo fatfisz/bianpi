@@ -395,7 +395,7 @@ function aliasParserMixin(Parser) {
       );
       const type = this.parseType();
 
-      this.expectToken('type', type, 'followed by an alias name');
+      this.expectToken('the type', type, 'followed by an alias name');
       const name = this.parseIdent('an alias name');
 
       return {
@@ -407,6 +407,24 @@ function aliasParserMixin(Parser) {
     }
   };
 }
+
+var operatorToLabel = {
+  '=': 'an assignment operator \'=\'',
+  '+': 'an addition operator \'+\'',
+  '-': 'a subtraction operator \'-\'',
+  '*': 'a multiplication operator \'*\'',
+  '/': 'a division operator \'/\'',
+  '{': 'an opening brace \'{\'',
+  '}': 'a closing brace \'}\'',
+  '(': 'an opening paren \'(\'',
+  ')': 'a closing paren \')\'',
+  '[': 'an opening bracket \'[\'',
+  ']': 'a closing bracket \']\'',
+  '<': 'an opening pointy bracket \'<\'',
+  '>': 'a closing pointy bracket \'>\'',
+  '@': 'a decorator operator \'@\'',
+  ',': 'a comma \',\'',
+};
 
 const declarationMode = /^(read|write)$/;
 const expressionOperatorValue = /^[+\-*/]$/;
@@ -459,14 +477,14 @@ function blockParserMixin(Parser) {
       const declarations = this.parseDeclarations();
 
       this.expectToken(
-        'block',
+        'the block',
         openingBrace,
-        'ending with a closing brace \'}\''
+        `ending with ${operatorToLabel['}']}`
       );
       const closingBrace = this.popToken();
       if (!isToken(closingBrace, 'operator', '}')) {
         throw this.getUnexpectedError(
-          'a closing brace \'}\' for a block',
+          `${operatorToLabel['}']} for a block`,
           closingBrace
         );
       }
@@ -494,20 +512,20 @@ function constParserMixin(Parser) {
       const name = this.parseIdent('a const name');
 
       this.expectToken(
-        'const name',
+        'the const name',
         name,
-        'followed by an assignment operator \'=\''
+        `followed by ${operatorToLabel['=']}`
       );
       const assignment = this.popToken();
       if (!isToken(assignment, 'operator', '=')) {
         throw this.getUnexpectedError(
-          'an assignment operator \'=\' after a const name',
+          `${operatorToLabel['=']} after a const name`,
           assignment
         );
       }
 
       this.expectToken(
-        'an assignment operator \'=\'',
+        operatorToLabel['='],
         assignment,
         'followed by an expression'
       );
@@ -588,27 +606,27 @@ function decoratedDeclarationParserMixin(Parser) {
         this.popToken();
 
         this.expectToken(
-          'decorator operator \'@\'',
+          operatorToLabel['@'],
           decoratorOperator,
           'followed by a name (read/write)'
         );
         const name = this.popToken();
         if (!isDeclarationMode(name)) {
           throw this.getUnexpectedError(
-            'a decorator name (read/write) after a decorator operator \'@\'',
+            `a decorator name (read/write) after ${operatorToLabel['@']}`,
             name
           );
         }
 
         this.expectToken(
-          'decorator name',
+          'the decorator name',
           name,
-          'followed by an opening paren \'(\''
+          `followed by ${operatorToLabel['(']}`
         );
         const openingParen = this.popToken();
         if (!isToken(openingParen, 'operator', '(')) {
           throw this.getUnexpectedError(
-            'an opening paren \'(\' after a decorator name',
+            `${operatorToLabel['(']} after a decorator name`,
             openingParen
           );
         }
@@ -618,7 +636,7 @@ function decoratedDeclarationParserMixin(Parser) {
 
         do {
           this.expectToken(
-            separator ? 'comma \',\'' : 'opening paren \'(\'',
+            separator ? operatorToLabel[','] : operatorToLabel['('],
             separator || openingParen,
             'followed by a target name'
           );
@@ -627,12 +645,12 @@ function decoratedDeclarationParserMixin(Parser) {
           this.expectToken(
             'decorator arguments',
             openingParen,
-            'followed by a closing paren \')\''
+            `followed by ${operatorToLabel[')']}`
           );
           separator = this.popToken();
           if (!isTargetListOperator(separator)) {
             throw this.getUnexpectedError(
-              'a closing paren \')\' after decorator arguments',
+              `${operatorToLabel[')']} after decorator arguments`,
               separator
             );
           }
@@ -686,20 +704,20 @@ function enumParserMixin(Parser) {
       const name = this.parseIdent('an enum name');
 
       this.expectToken(
-        'enum name',
+        'the enum name',
         name,
-        'an opening brace \'{\''
+        `followed by ${operatorToLabel['{']}`
       );
       const openingBrace = this.popToken();
       if (!isToken(openingBrace, 'operator', '{')) {
         throw this.getUnexpectedError(
-          'an opening brace \'{\' after an enum name',
+          `${operatorToLabel['{']} after an enum name`,
           openingBrace
         );
       }
 
       this.expectToken(
-        'an opening brace \'{\'',
+        operatorToLabel['{'],
         openingBrace,
         'followed by enum values'
       );
@@ -707,9 +725,9 @@ function enumParserMixin(Parser) {
       const expectedLength = values[0].props.value.value.length - 2;
 
       this.expectToken(
-        'enum declaration',
+        'the enum declaration',
         enumKeyword,
-        'ending with a closing brace \'}\''
+        `ending with ${operatorToLabel['}']}`
       );
       let closingBrace = this.peekToken();
 
@@ -717,9 +735,9 @@ function enumParserMixin(Parser) {
         values.push(this.parseEnumValue(expectedLength));
 
         this.expectToken(
-          'enum declaration',
+          'the enum declaration',
           enumKeyword,
-          'ending with a closing brace \'}\''
+          `ending with ${operatorToLabel['}']}`
         );
         closingBrace = this.peekToken();
       }
@@ -738,14 +756,14 @@ function enumParserMixin(Parser) {
       const name = this.parseIdent('an enum value name');
 
       this.expectToken(
-        'enum value name',
+        'the enum value name',
         name,
-        'followed by an assignment operator \'=\''
+        `followed by ${operatorToLabel['=']}`
       );
       const assignment = this.popToken();
       if (!isToken(assignment, 'operator', '=')) {
         throw this.getUnexpectedError(
-          'an assignment operator \'=\' after an enum value name',
+          `${operatorToLabel['=']} after an enum value name`,
           assignment
         );
       }
@@ -757,7 +775,7 @@ function enumParserMixin(Parser) {
         `${hexLengthToLabel[expectedLength]} hexadecimal number`;
 
       this.expectToken(
-        'assignment operator \'=\'',
+        operatorToLabel['='],
         assignment,
         `followed by ${expectedNumber}${derivedInfo}`
       );
@@ -778,13 +796,6 @@ function enumParserMixin(Parser) {
     }
   };
 }
-
-var operatorToLabel = {
-  '+': 'addiction operator \'+\'',
-  '-': 'subtraction operator \'-\'',
-  '*': 'multiplication operator \'*\'',
-  '/': 'division operator \'/\'',
-};
 
 function expressionParserMixin(Parser) {
   return class extends Parser {
@@ -827,22 +838,22 @@ function expressionParserMixin(Parser) {
 
       if (isToken(value, 'operator', '(')) {
         this.expectToken(
-          'opening paren \'(\'',
+          operatorToLabel['('],
           value,
           'followed by a value'
         );
         const expression = this.parseExpression();
 
         this.expectToken(
-          'expression in parentheses',
+          'the expression in parentheses',
           value,
-          'ending with a closing paren \')\''
+          `ending with ${operatorToLabel[')']}`
         );
         const closingParen = this.popToken();
 
         if (!isToken(closingParen, 'operator', ')')) {
           throw this.getUnexpectedError(
-            'a closing paren \')\' for an expression in parentheses',
+            `${operatorToLabel[')']} for an expression in parentheses`,
             closingParen
           );
         }
@@ -873,7 +884,7 @@ function fieldParserMixin(Parser) {
       const props = { type };
 
       this.expectToken(
-        'field type',
+        'the field type',
         type,
         'followed by a field name'
       );
@@ -881,7 +892,7 @@ function fieldParserMixin(Parser) {
         const openingBracket = this.popToken();
 
         this.expectToken(
-          'opening bracket \'[\'',
+          operatorToLabel['['],
           openingBracket,
           'followed by an array length expression'
         );
@@ -889,21 +900,21 @@ function fieldParserMixin(Parser) {
         props.count = count;
 
         this.expectToken(
-          'array length expression',
+          'the array length expression',
           count,
-          'followed by a closing bracket \']\''
+          `followed by ${operatorToLabel[']']}`
         );
         const closingBracket = this.popToken();
         if (!isToken(closingBracket, 'operator', ']')) {
           throw this.getUnexpectedError(
-            'a closing bracket \']\' after an array length expression',
+            `${operatorToLabel[']']} after an array length expression`,
             closingBracket
           );
         }
       }
 
       this.expectToken(
-        'field type',
+        'the field type',
         type,
         'followed by a field name'
       );
@@ -946,14 +957,14 @@ function messageParserMixin(Parser) {
       const name = this.parseIdent('a message name');
 
       this.expectToken(
-        'message name',
+        'the message name',
         name,
-        'followed by an assignment operator \'=\''
+        `followed by ${operatorToLabel['=']}`
       );
       const assignment = this.popToken();
       if (!isToken(assignment, 'operator', '=')) {
         throw this.getUnexpectedError(
-          'an assignment operator \'=\' after a message name',
+          `${operatorToLabel['=']} after a message name`,
           assignment
         );
       }
@@ -962,7 +973,7 @@ function messageParserMixin(Parser) {
         `${hexLengthToLabel[this.messageIdLength]} hexadecimal number`;
 
       this.expectToken(
-        'an assignment operator \'=\'',
+        operatorToLabel['='],
         assignment,
         `followed by ${expectedNumber}`
       );
@@ -972,14 +983,14 @@ function messageParserMixin(Parser) {
       }
 
       this.expectToken(
-        'message id',
+        'the message id',
         id,
-        'followed by an opening brace \'{\''
+        `followed by ${operatorToLabel['{']}`
       );
       const openingBrace = this.popToken();
       if (!isToken(openingBrace, 'operator', '{')) {
         throw this.getUnexpectedError(
-          'an opening brace \'{\' after a message id',
+          `${operatorToLabel['{']} after a message id`,
           openingBrace
         );
       }
@@ -987,9 +998,9 @@ function messageParserMixin(Parser) {
       const fields = [];
 
       this.expectToken(
-        'message declaration',
+        'the message declaration',
         messageKeyword,
-        'ending with a closing brace \'}\''
+        `ending with ${operatorToLabel['}']}`
       );
       let closingBrace = this.peekToken();
 
@@ -997,9 +1008,9 @@ function messageParserMixin(Parser) {
         fields.push(this.parseField());
 
         this.expectToken(
-          'message declaration',
+          'the message declaration',
           messageKeyword,
-          'ending with a closing brace \'}\''
+          `ending with ${operatorToLabel['}']}`
         );
         closingBrace = this.peekToken();
       }
@@ -1048,14 +1059,14 @@ function structParserMixin(Parser) {
       const name = this.parseStructName();
 
       this.expectToken(
-        'struct name',
+        'the struct name',
         name,
-        'followed by an opening brace \'{\''
+        `followed by ${operatorToLabel['{']}`
       );
       const openingBrace = this.popToken();
       if (!isToken(openingBrace, 'operator', '{')) {
         throw this.getUnexpectedError(
-          'an opening brace \'{\' after a struct name',
+          `${operatorToLabel['{']} after a struct name`,
           openingBrace
         );
       }
@@ -1063,9 +1074,9 @@ function structParserMixin(Parser) {
       const fields = [];
 
       this.expectToken(
-        'struct declaration',
+        'the struct declaration',
         structKeyword,
-        'ending with a closing brace \'}\''
+        `ending with ${operatorToLabel['}']}`
       );
       let closingBrace = this.peekToken();
 
@@ -1073,9 +1084,9 @@ function structParserMixin(Parser) {
         fields.push(this.parseField());
 
         this.expectToken(
-          'struct declaration',
+          'the struct declaration',
           structKeyword,
-          'ending with a closing brace \'}\''
+          `ending with ${operatorToLabel['}']}`
         );
         closingBrace = this.peekToken();
       }
@@ -1125,7 +1136,7 @@ function structNameParserMixin(Parser) {
 
       do {
         this.expectToken(
-          separator ? 'comma \',\'' : 'opening pointy bracket \'<\'',
+          separator ? operatorToLabel[','] : operatorToLabel['<'],
           separator || openingPointyBracket,
           'followed by a parameter name'
         );
@@ -1134,12 +1145,12 @@ function structNameParserMixin(Parser) {
         this.expectToken(
           'struct parameters',
           openingPointyBracket,
-          'followed by a closing pointy bracket \'>\''
+          `followed by ${operatorToLabel['>']}`
         );
         separator = this.popToken();
         if (!isTypeParameterListOperator(separator)) {
           throw this.getUnexpectedError(
-            'a closing pointy bracket \'>\' for a struct parameter list',
+            `${operatorToLabel['>']} for a struct parameter list`,
             separator
           );
         }
@@ -1188,7 +1199,7 @@ function typeParserMixin(Parser) {
 
       do {
         this.expectToken(
-          separator ? 'comma \',\'' : 'opening pointy bracket \'<\'',
+          separator ? operatorToLabel[','] : operatorToLabel['<'],
           separator || openingPointyBracket,
           'followed by a type'
         );
@@ -1197,12 +1208,12 @@ function typeParserMixin(Parser) {
         this.expectToken(
           'type parameters',
           openingPointyBracket,
-          'followed by a closing pointy bracket \'>\''
+          `followed by ${operatorToLabel['>']}`
         );
         separator = this.popToken();
         if (!isTypeParameterListOperator(separator)) {
           throw this.getUnexpectedError(
-            'a closing pointy bracket \'>\' for a type parameter list',
+            `${operatorToLabel['>']} for a type parameter list`,
             separator
           );
         }
@@ -1287,9 +1298,11 @@ const Parser = parserMixins.reduce(applyMixin, class {
     }
 
     if (!this.hasTokens) {
+      const cleanType = type.replace(/^an? /, 'the ');
+
       throw new ParserError(
         dedent`Unexpected end of file.
-               ${type.slice(0, 1).toUpperCase()}${type.slice(1)}
+               ${cleanType.slice(0, 1).toUpperCase()}${cleanType.slice(1)}
                at ${new Position(relToken.start)}
                should be ${relationAndToken}.`,
         this.end
