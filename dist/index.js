@@ -443,12 +443,15 @@ const hexLengthToLabel = {
   8: 'a 32-bit',
 };
 
+const defaultMessageIdLength = 4;
+
 class Parser {
   constructor({ tokens, start, end }) {
     Object.assign(this, {
       tokens,
       start,
       end,
+      messageIdLength: defaultMessageIdLength,
       currentTokenIndex: 0,
     });
   }
@@ -489,12 +492,6 @@ class Parser {
             ${ending}.`,
       this.end
     );
-  }
-
-  deprecatedExpectToken(type, relToken, missing) {
-    if (!this.hasTokens) {
-      throw this.getEOFError(type, relToken, `is missing ${missing}`);
-    }
   }
 
   expectToken(type, relToken, relationAndToken) {
@@ -974,14 +971,17 @@ class Parser {
       throw this.getUnexpectedError('an assignment operator \'=\'', assignment);
     }
 
-    this.deprecatedExpectToken(
-      'message declaration',
-      messageKeyword,
-      'something 4'
+    const expectedNumber =
+      `${hexLengthToLabel[this.messageIdLength]} hexadecimal number`;
+
+    this.expectToken(
+      'an assignment operator \'=\'',
+      assignment,
+      `followed by ${expectedNumber}`
     );
     const id = this.popToken();
-    if (id.type !== 'number') {
-      throw this.getUnexpectedError('something 5', id);
+    if (!isRestrictedHexNumber(id, this.messageIdLength)) {
+      throw this.getUnexpectedError(expectedNumber, id);
     }
 
     this.expectToken(

@@ -1,11 +1,10 @@
 'use strict';
 
 module.exports = {
-  skip: true,
   type: 'error',
   error: {
-    line: 2,
-    column: 1,
-    message: 'Unexpected end of file. The number is invalid.',
+    line: 1,
+    column: 14,
+    message: 'Expected a 16-bit hexadecimal number but found \'1\' instead.',
   },
 };

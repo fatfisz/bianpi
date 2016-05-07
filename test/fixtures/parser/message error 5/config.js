@@ -1,11 +1,10 @@
 'use strict';
 
 module.exports = {
-  skip: true,
   type: 'error',
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Enum declaration at 1:1 is missing a name.',
+    message: 'Unexpected end of file. An assignment operator \'=\' at 1:12 should be followed by a 16-bit hexadecimal number.',
   },
 };
