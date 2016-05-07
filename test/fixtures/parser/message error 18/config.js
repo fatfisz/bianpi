@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 8,
-    message: 'Expected a closing bracket \']\' but found \'1\' instead.',
+    message: 'Expected a closing bracket \']\' after an array length expression but found \'1\' instead.',
   },
 };

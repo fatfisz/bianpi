@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 1,
     column: 9,
-    message: 'Expected an opening brace \'{\' but found \'1\' instead.',
+    message: 'Expected an opening brace \'{\' after an enum name but found \'1\' instead.',
   },
 };

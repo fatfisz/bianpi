@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 6,
-    message: 'Expected an assignment operator \'=\' but found \'1\' instead.',
+    message: 'Expected an assignment operator \'=\' after an enum value name but found \'1\' instead.',
   },
 };

@@ -438,12 +438,14 @@ const operatorValueToLabel = {
 };
 
 const hexLengthToLabel = {
+  null: 'an 8-bit, 16-bit, or 32-bit',
   2: 'an 8-bit',
   4: 'a 16-bit',
   8: 'a 32-bit',
 };
 
 const defaultMessageIdLength = 4;
+
 
 class Parser {
   constructor({ tokens, start, end }) {
@@ -560,7 +562,10 @@ class Parser {
     );
     const closingBrace = this.popToken();
     if (!isToken(closingBrace, 'operator', '}')) {
-      throw this.getUnexpectedError('a closing brace \'}\'', closingBrace);
+      throw this.getUnexpectedError(
+        'a closing brace \'}\' for a block',
+        closingBrace
+      );
     }
 
     return {
@@ -588,7 +593,10 @@ class Parser {
     );
     const assignment = this.popToken();
     if (!isToken(assignment, 'operator', '=')) {
-      throw this.getUnexpectedError('an assignment operator \'=\'', assignment);
+      throw this.getUnexpectedError(
+        'an assignment operator \'=\' after a const name',
+        assignment
+      );
     }
 
     this.expectToken(
@@ -667,7 +675,10 @@ class Parser {
       );
       const name = this.popToken();
       if (!isDeclarationMode(name)) {
-        throw this.getUnexpectedError('a decorator name (read/write)', name);
+        throw this.getUnexpectedError(
+          'a decorator name (read/write) after a decorator operator \'@\'',
+          name
+        );
       }
 
       this.expectToken(
@@ -677,7 +688,10 @@ class Parser {
       );
       const openingParen = this.popToken();
       if (!isToken(openingParen, 'operator', '(')) {
-        throw this.getUnexpectedError('an opening paren \'(\'', openingParen);
+        throw this.getUnexpectedError(
+          'an opening paren \'(\' after a decorator name',
+          openingParen
+        );
       }
 
       const targets = [];
@@ -692,13 +706,16 @@ class Parser {
         targets.push(this.parseIdent('a target name'));
 
         this.expectToken(
-          'decorator argument list',
+          'decorator arguments',
           openingParen,
-          'ending with a closing paren \')\''
+          'followed by a closing paren \')\''
         );
         separator = this.popToken();
         if (!isTargetListOperator(separator)) {
-          throw this.getUnexpectedError('a closing paren \')\'', separator);
+          throw this.getUnexpectedError(
+            'a closing paren \')\' after decorator arguments',
+            separator
+          );
         }
       } while (separator.value === ',');
 
@@ -745,7 +762,10 @@ class Parser {
     );
     const openingBrace = this.popToken();
     if (!isToken(openingBrace, 'operator', '{')) {
-      throw this.getUnexpectedError('an opening brace \'{\'', openingBrace);
+      throw this.getUnexpectedError(
+        'an opening brace \'{\' after an enum name',
+        openingBrace
+      );
     }
 
     this.expectToken(
@@ -794,22 +814,29 @@ class Parser {
     );
     const assignment = this.popToken();
     if (!isToken(assignment, 'operator', '=')) {
-      throw this.getUnexpectedError('an assignment operator \'=\'', assignment);
+      throw this.getUnexpectedError(
+        'an assignment operator \'=\' after an enum value name',
+        assignment
+      );
     }
 
-    const expectedNumber = expectedLength === null ?
-      'an 8-bit, 16-bit, or 32-bit hexadecimal number' :
-      dedent`${hexLengthToLabel[expectedLength]} hexadecimal number
-             (derived from preceding values)`;
+    const derivedInfo = expectedLength === null ?
+      '' :
+      ' (derived from preceding values)';
+    const expectedNumber =
+      `${hexLengthToLabel[expectedLength]} hexadecimal number`;
 
     this.expectToken(
       'assignment operator \'=\'',
       assignment,
-      `followed by ${expectedNumber}`
+      `followed by ${expectedNumber}${derivedInfo}`
     );
     const value = this.popToken();
     if (!isRestrictedHexNumber(value, expectedLength)) {
-      throw this.getUnexpectedError(expectedNumber, value);
+      throw this.getUnexpectedError(
+        `${expectedNumber} for an enum value${derivedInfo}`,
+        value
+      );
     }
 
     return {
@@ -873,7 +900,10 @@ class Parser {
       const closingParen = this.popToken();
 
       if (!isToken(closingParen, 'operator', ')')) {
-        throw this.getUnexpectedError('a closing paren \')\'', closingParen);
+        throw this.getUnexpectedError(
+          'a closing paren \')\' for an expression in parentheses',
+          closingParen
+        );
       }
 
       return {
@@ -910,17 +940,18 @@ class Parser {
         openingBracket,
         'followed by an array length expression'
       );
-      props.count = this.parseExpression();
+      const count = this.parseExpression();
+      props.count = count;
 
       this.expectToken(
         'array length expression',
-        openingBracket,
-        'ending with a closing bracket \']\''
+        count,
+        'followed by a closing bracket \']\''
       );
       const closingBracket = this.popToken();
       if (!isToken(closingBracket, 'operator', ']')) {
         throw this.getUnexpectedError(
-          'a closing bracket \']\'',
+          'a closing bracket \']\' after an array length expression',
           closingBracket
         );
       }
@@ -968,7 +999,10 @@ class Parser {
     );
     const assignment = this.popToken();
     if (!isToken(assignment, 'operator', '=')) {
-      throw this.getUnexpectedError('an assignment operator \'=\'', assignment);
+      throw this.getUnexpectedError(
+        'an assignment operator \'=\' after a message name',
+        assignment
+      );
     }
 
     const expectedNumber =
@@ -981,7 +1015,7 @@ class Parser {
     );
     const id = this.popToken();
     if (!isRestrictedHexNumber(id, this.messageIdLength)) {
-      throw this.getUnexpectedError(expectedNumber, id);
+      throw this.getUnexpectedError(`${expectedNumber} for a message id`, id);
     }
 
     this.expectToken(
@@ -991,7 +1025,10 @@ class Parser {
     );
     const openingBrace = this.popToken();
     if (!isToken(openingBrace, 'operator', '{')) {
-      throw this.getUnexpectedError('an opening brace \'{\'', openingBrace);
+      throw this.getUnexpectedError(
+        'an opening brace \'{\' after a message id',
+        openingBrace
+      );
     }
 
     const fields = [];
@@ -1041,7 +1078,10 @@ class Parser {
     );
     const openingBrace = this.popToken();
     if (!isToken(openingBrace, 'operator', '{')) {
-      throw this.getUnexpectedError('an opening brace \'{\'', openingBrace);
+      throw this.getUnexpectedError(
+        'an opening brace \'{\' after a struct name',
+        openingBrace
+      );
     }
 
     const fields = [];
@@ -1112,14 +1152,14 @@ class Parser {
       parameters.push(this.parseIdent('a parameter name'));
 
       this.expectToken(
-        'struct parameter list',
+        'struct parameters',
         openingPointyBracket,
-        'ending with a closing pointy bracket \'>\''
+        'followed by a closing pointy bracket \'>\''
       );
       separator = this.popToken();
       if (!isTypeParameterListOperator(separator)) {
         throw this.getUnexpectedError(
-          'a closing pointy bracket \'>\'',
+          'a closing pointy bracket \'>\' for a struct parameter list',
           separator
         );
       }
@@ -1171,14 +1211,14 @@ class Parser {
       parameters.push(this.parseType());
 
       this.expectToken(
-        'type parameter list',
+        'type parameters',
         openingPointyBracket,
-        'ending with a closing pointy bracket \'>\''
+        'followed by a closing pointy bracket \'>\''
       );
       separator = this.popToken();
       if (!isTypeParameterListOperator(separator)) {
         throw this.getUnexpectedError(
-          'a closing pointy bracket \'>\'',
+          'a closing pointy bracket \'>\' for a type parameter list',
           separator
         );
       }

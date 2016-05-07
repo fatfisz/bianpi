@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 1,
     column: 11,
-    message: 'Expected an opening brace \'{\' but found \'1\' instead.',
+    message: 'Expected an opening brace \'{\' after a struct name but found \'1\' instead.',
   },
 };

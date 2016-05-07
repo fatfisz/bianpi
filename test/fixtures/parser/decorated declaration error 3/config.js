@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 1,
     column: 2,
-    message: 'Expected a decorator name (read/write) but found \'invalid\' instead.',
+    message: 'Expected a decorator name (read/write) after a decorator operator \'@\' but found \'invalid\' instead.',
   },
 };
