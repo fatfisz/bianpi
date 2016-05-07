@@ -1,6 +1,7 @@
 'use strict';
 
 const loadGruntTasks = require('load-grunt-tasks');
+const rollupPluginIncludePaths = require('rollup-plugin-includepaths');
 const rollupPluginNodeResolve = require('rollup-plugin-node-resolve');
 const rollupPluginReplace = require('rollup-plugin-replace');
 
@@ -26,6 +27,7 @@ module.exports = function register(grunt) {
               'module.exports=': 'export default',
             },
           }),
+          rollupPluginIncludePaths(),
           rollupPluginNodeResolve(),
         ],
         format: 'cjs',
