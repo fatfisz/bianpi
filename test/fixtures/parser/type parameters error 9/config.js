@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Type parameter list (started at 1:12) is missing a type.',
+    message: 'Unexpected end of file. Opening pointy bracket \'<\' at 1:12 should be followed by a type.',
   },
 };

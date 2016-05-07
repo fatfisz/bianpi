@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Enum declaration (started at 1:1) is missing values.',
+    message: 'Unexpected end of file. An opening brace \'{\' at 1:9 should be followed by enum values.',
   },
 };

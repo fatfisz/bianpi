@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Message declaration (started at 1:1) is missing a name.',
+    message: 'Unexpected end of file. The \'message\' keyword at 1:1 should be followed by a message name.',
   },
 };

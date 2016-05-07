@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Decorator (started at 1:1) is missing a closing paren \')\'.',
+    message: 'Unexpected end of file. Decorator argument list at 1:6 should be ending with a closing paren \')\'.',
   },
 };

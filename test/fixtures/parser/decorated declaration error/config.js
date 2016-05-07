@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Decorator (started at 1:1) is missing a name (read/write).',
+    message: 'Unexpected end of file. Decorator operator \'@\' at 1:1 should be followed by a name (read/write).',
   },
 };

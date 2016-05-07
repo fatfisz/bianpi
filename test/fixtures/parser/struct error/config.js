@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Struct declaration (started at 1:1) is missing a name.',
+    message: 'Unexpected end of file. The \'struct\' keyword at 1:1 should be followed by a struct name.',
   },
 };

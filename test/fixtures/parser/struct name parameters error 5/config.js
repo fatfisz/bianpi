@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Struct parameter list (started at 1:10) is missing a parameter name.',
+    message: 'Unexpected end of file. Comma \',\' at 1:13 should be followed by a parameter name.',
   },
 };

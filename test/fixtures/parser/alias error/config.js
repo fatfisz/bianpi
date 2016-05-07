@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Alias declaration (started at 1:1) is missing a type.',
+    message: 'Unexpected end of file. The \'alias\' keyword at 1:1 should be followed by a type.',
   },
 };

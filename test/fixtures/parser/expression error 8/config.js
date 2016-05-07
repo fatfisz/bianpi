@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Parenthesized expression (started at 1:13) is missing a value.',
+    message: 'Unexpected end of file. Opening paren \'(\' at 1:13 should be followed by a value.',
   },
 };

@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 1,
     column: 9,
-    message: 'Unexpected end of file. String started at 1:1 is unfinished.',
+    message: 'Unexpected end of file. String at 1:1 is unfinished.',
   },
 };

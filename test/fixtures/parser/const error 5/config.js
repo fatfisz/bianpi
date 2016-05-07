@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Const declaration (started at 1:1) is missing a value.',
+    message: 'Unexpected end of file. An assignment operator \'=\' at 1:10 should be followed by an expression.',
   },
 };

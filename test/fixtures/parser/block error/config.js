@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Block (started at 1:1) is missing a closing brace \'}\'.',
+    message: 'Unexpected end of file. Block at 1:1 should be ending with a closing brace \'}\'.',
   },
 };

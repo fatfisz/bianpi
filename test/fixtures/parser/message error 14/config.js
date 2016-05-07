@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 3,
     column: 1,
-    message: 'Unexpected end of file. Array length expression (started at 2:5) is missing an expression.',
+    message: 'Unexpected end of file. Opening bracket \'[\' at 2:5 should be followed by an array length expression.',
   },
 };
