@@ -5,6 +5,6 @@ module.exports = {
   error: {
     line: 2,
     column: 1,
-    message: 'Unexpected end of file. Subtraction operator \'-\' at 1:20 should be followed by a value.',
+    message: 'Unexpected end of file. Expression in parentheses at 1:13 should be ending with a closing paren \')\'.',
   },
 };
