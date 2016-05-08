@@ -868,50 +868,19 @@ function fieldParserMixin(Parser) {
   return class extends Parser {
     parseField() {
       const type = this.parseType();
-      const props = { type };
 
       this.expectToken(
         'the field type',
         type,
         'followed by a field name'
       );
-      if (isOperator$1(this.peekToken(), '[')) {
-        const openingBracket = this.popToken();
-
-        this.expectToken(
-          operatorToLabel['['],
-          openingBracket,
-          'followed by an array length expression'
-        );
-        const count = this.parseExpression();
-        props.count = count;
-
-        this.expectToken(
-          'the array length expression',
-          count,
-          `followed by ${operatorToLabel[']']}`
-        );
-        const closingBracket = this.popToken();
-        if (!isOperator$1(closingBracket, ']')) {
-          throw this.getUnexpectedError(
-            `${operatorToLabel[']']} after an array length expression`,
-            closingBracket
-          );
-        }
-      }
-
-      this.expectToken(
-        'the field type',
-        type,
-        'followed by a field name'
-      );
-      props.name = this.parseIdent('a field name');
+      const name = this.parseIdent('a field name');
 
       return {
         type: 'fieldDefinition',
         start: type.start,
-        end: props.name.end,
-        props,
+        end: name.end,
+        props: { type, name },
       };
     }
   };
@@ -1159,6 +1128,17 @@ function typeParserMixin(Parser) {
         end = parameters.end;
       }
 
+      while (this.hasTokens && isOperator$1(this.peekToken(), '[')) {
+        const count = this.parseArrayTypeLength();
+
+        if (props.dimensions) {
+          props.dimensions.push(count);
+        } else {
+          props.dimensions = [count];
+        }
+        end = count.end;
+      }
+
       return {
         type: 'type',
         start: name.start,
@@ -1199,6 +1179,37 @@ function typeParserMixin(Parser) {
         start: openingPointyBracket.start,
         end: separator.end,
         props: { parameters },
+      };
+    }
+
+    parseArrayTypeLength() {
+      const openingBracket = this.popToken();
+
+      this.expectToken(
+        operatorToLabel['['],
+        openingBracket,
+        'followed by an array length expression'
+      );
+      const expression = this.parseExpression();
+
+      this.expectToken(
+        'the array length expression',
+        expression,
+        `followed by ${operatorToLabel[']']}`
+      );
+      const closingBracket = this.popToken();
+      if (!isOperator$1(closingBracket, ']')) {
+        throw this.getUnexpectedError(
+          `${operatorToLabel[']']} after an array length expression`,
+          closingBracket
+        );
+      }
+
+      return {
+        type: 'arrayTypeLength',
+        start: openingBracket.start,
+        end: closingBracket.end,
+        props: { expression },
       };
     }
   };
