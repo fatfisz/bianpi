@@ -42,11 +42,9 @@ function newlineToSpace(str) {
 }
 
 function dedent(strings, ...values) {
-  const mappedStrings = strings.map(newlineToSpace);
-
   return values.reduce(
-    (acc, value, index) => acc + value + mappedStrings[index + 1],
-    mappedStrings[0]
+    (acc, value, index) => acc + value + newlineToSpace(strings[index + 1]),
+    newlineToSpace(strings[0])
   ).trim();
 }
 
