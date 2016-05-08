@@ -383,6 +383,44 @@ function tokenize(rawSource, options = {}) {
   };
 }
 
+const defaultMessageIdType = 'uint16';
+
+function messageIdTypePragmaMixin(Parser) {
+  return class extends Parser {
+    constructor(lexerResult) {
+      super(lexerResult);
+
+      this.pragmas.set('messageIdType', this.setMessageIdType);
+      this.setMessageIdType(defaultMessageIdType);
+    }
+
+    setMessageIdType(type) {
+      switch (type) {
+        case 'int8':
+        case 'uint8':
+          this.messageIdLength = 2;
+          break;
+        case 'int16':
+        case 'uint16':
+          this.messageIdLength = 4;
+          break;
+        case 'int32':
+        case 'uint32':
+        case 'float32':
+          this.messageIdLength = 8;
+          break;
+        case 'float64':
+          this.messageIdLength = 16;
+          break;
+        default:
+          return false;
+      }
+
+      this.messageIdType = type;
+    }
+  };
+}
+
 function aliasParserMixin(Parser) {
   return class extends Parser {
     parseAlias() {
@@ -544,7 +582,10 @@ function constParserMixin(Parser) {
 function declarationParserMixin(Parser) {
   return class extends Parser {
     parseDeclaration() {
-      const { type, value } = this.peekToken();
+      const token = this.peekToken();
+      const { type, value } = token;
+
+      this.checkPragma(token);
 
       if (type === 'ident') {
         switch (value) {
@@ -556,6 +597,8 @@ function declarationParserMixin(Parser) {
             return this.parseEnum();
           case 'message':
             return this.parseMessage();
+          case 'pragma':
+            return this.parsePragma();
           case 'struct':
             return this.parseStruct();
         }
@@ -587,7 +630,9 @@ function declarationsParserMixin(Parser) {
           break;
         }
 
-        declarations.push(declaration);
+        if (typeof declaration !== 'undefined') {
+          declarations.push(declaration);
+        }
       }
 
       return declarations;
@@ -981,6 +1026,56 @@ function messageParserMixin(Parser) {
   };
 }
 
+function pragmaParserMixin(Parser) {
+  return class extends Parser {
+    constructor(lexerResult) {
+      super(lexerResult);
+
+      this.pragmaForbidden = false;
+    }
+
+    checkPragma({ type, value, start }) {
+      if (type !== 'ident' || value !== 'pragma') {
+        this.pragmaForbidden = true;
+      } else if (this.pragmaForbidden) {
+        throw new ParserError(
+          dedent`Unexpected 'pragma' keyword.
+                 Pragma declarations should precede other declarations.`,
+          start
+        );
+      }
+    }
+
+    parsePragma() {
+      const pragmaKeyword = this.popToken();
+
+      this.expectToken(
+        'the \'pragma\' keyword',
+        pragmaKeyword,
+        'followed by a pragma name'
+      );
+      const name = this.parseIdent('a pragma name');
+
+      if (!this.pragmas.has(name.value)) {
+        throw new ParserError(
+          `Unknown pragma name: '${name.value}'.`,
+          name.start
+        );
+      }
+
+      this.expectToken('the pragma name', name, 'followed by a pragma value');
+      const value = this.parseIdent('an pragma value');
+
+      if (this.pragmas.get(name.value).call(this, value.value) === false) {
+        throw new ParserError(
+          `Pragma ${name.value} doesn't accept the '${value.value}' value.`,
+          value.start
+        );
+      }
+    }
+  };
+}
+
 function rootParserMixin(Parser) {
   return class extends Parser {
     parseRoot() {
@@ -1218,14 +1313,12 @@ function typeParserMixin(Parser) {
 const noMoreTokens =
   'No more tokens available, please remember to check with this.hasTokens.';
 
-const defaultMessageIdLength = 4;
-
-
 function applyMixin(Class, mixin) {
   return mixin(Class);
 }
 
 const parserMixins = [
+  messageIdTypePragmaMixin,
   aliasParserMixin,
   blockParserMixin,
   declarationParserMixin,
@@ -1237,6 +1330,7 @@ const parserMixins = [
   fieldParserMixin,
   identParserMixin,
   messageParserMixin,
+  pragmaParserMixin,
   rootParserMixin,
   structParserMixin,
   structNameParserMixin,
@@ -1249,8 +1343,8 @@ const Parser = parserMixins.reduce(applyMixin, class {
       tokens,
       start,
       end,
-      messageIdLength: defaultMessageIdLength,
       currentTokenIndex: 0,
+      pragmas: new Map(),
     });
   }
 

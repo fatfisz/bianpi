@@ -1,0 +1,3 @@
+pragma messageIdType uint8
+
+message id = 0x0001 {}
