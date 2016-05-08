@@ -11,6 +11,9 @@ module.exports = function register(grunt) {
 
   grunt.initConfig({
     eslint: {
+      options: {
+        cache: true,
+      },
       all: ['lib', 'test'],
     },
 
