@@ -385,11 +385,13 @@ const defaultMessageIdType = 'uint16';
 
 function messageIdTypePragmaMixin(Parser) {
   return class extends Parser {
-    constructor(lexerResult) {
-      super(lexerResult);
+    constructor(lexerResult, options) {
+      super(lexerResult, options);
+
+      const { messageIdType = defaultMessageIdType } = options;
 
       this.pragmas.set('messageIdType', this.setMessageIdType);
-      this.setMessageIdType(defaultMessageIdType);
+      this.setMessageIdType(messageIdType);
     }
 
     setMessageIdType(type) {
@@ -1026,8 +1028,8 @@ function messageParserMixin(Parser) {
 
 function pragmaParserMixin(Parser) {
   return class extends Parser {
-    constructor(lexerResult) {
-      super(lexerResult);
+    constructor(...args) {
+      super(...args);
 
       this.pragmaForbidden = false;
     }
@@ -1396,8 +1398,8 @@ const Parser = parserMixins.reduce(applyMixin, class {
   }
 });
 
-function parse(lexerResult) {
-  return new Parser(lexerResult).parseRoot();
+function parse(lexerResult, options = {}) {
+  return new Parser(lexerResult, options).parseRoot();
 }
 
 function generate(source, options) {
