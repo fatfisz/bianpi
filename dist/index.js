@@ -1321,10 +1321,10 @@ const parserMixins = [
   messageIdTypePragmaMixin,
   aliasParserMixin,
   blockParserMixin,
+  constParserMixin,
   declarationParserMixin,
   declarationsParserMixin,
   decoratedDeclarationParserMixin,
-  constParserMixin,
   enumParserMixin,
   expressionParserMixin,
   fieldParserMixin,
@@ -1332,8 +1332,8 @@ const parserMixins = [
   messageParserMixin,
   pragmaParserMixin,
   rootParserMixin,
-  structParserMixin,
   structNameParserMixin,
+  structParserMixin,
   typeParserMixin,
 ];
 
