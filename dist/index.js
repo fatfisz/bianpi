@@ -720,7 +720,7 @@ function decoratedDeclarationParserMixin(Parser) {
       }
 
       return {
-        type: 'declarationWithTargets',
+        type: 'decoratedDeclaration',
         start: firstDecorator.start,
         end: declaration.end,
         props: { decorators, declaration },
