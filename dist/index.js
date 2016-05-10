@@ -381,6 +381,10 @@ function tokenize(rawSource, options = {}) {
   };
 }
 
+function applyMixin(Class, mixin) {
+  return mixin(Class);
+}
+
 const defaultMessageIdType = 'uint16';
 
 function messageIdTypePragmaMixin(Parser) {
@@ -1312,10 +1316,6 @@ function typeParserMixin(Parser) {
 
 const noMoreTokens =
   'No more tokens available, please remember to check with this.hasTokens.';
-
-function applyMixin(Class, mixin) {
-  return mixin(Class);
-}
 
 const parserMixins = [
   messageIdTypePragmaMixin,
