@@ -25,7 +25,7 @@ module.exports = {
         },
         props: {
           name: {
-            type: 'structName',
+            type: 'ident',
             start: {
               line: 1,
               column: 8,
@@ -34,20 +34,7 @@ module.exports = {
               line: 1,
               column: 9,
             },
-            props: {
-              name: {
-                type: 'ident',
-                start: {
-                  line: 1,
-                  column: 8,
-                },
-                end: {
-                  line: 1,
-                  column: 9,
-                },
-                value: 'id',
-              },
-            },
+            value: 'id',
           },
           fields: [],
         },

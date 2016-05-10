@@ -48,85 +48,72 @@ module.exports = {
                   },
                   value: 'type',
                 },
-                parameters: {
-                  type: 'parameters',
-                  start: {
-                    line: 1,
-                    column: 11,
-                  },
-                  end: {
-                    line: 1,
-                    column: 31,
-                  },
-                  props: {
-                    parameters: [
-                      {
-                        type: 'type',
+                parameters: [
+                  {
+                    type: 'type',
+                    start: {
+                      line: 1,
+                      column: 12,
+                    },
+                    end: {
+                      line: 1,
+                      column: 23,
+                    },
+                    props: {
+                      name: {
+                        type: 'ident',
                         start: {
                           line: 1,
                           column: 12,
                         },
                         end: {
                           line: 1,
-                          column: 23,
+                          column: 16,
                         },
-                        props: {
-                          name: {
-                            type: 'ident',
-                            start: {
-                              line: 1,
-                              column: 12,
-                            },
-                            end: {
-                              line: 1,
-                              column: 16,
-                            },
-                            value: 'type1',
-                          },
-                          parameters: {
-                            type: 'parameters',
-                            start: {
-                              line: 1,
-                              column: 17,
-                            },
-                            end: {
-                              line: 1,
-                              column: 23,
-                            },
-                            props: {
-                              parameters: [
-                                {
-                                  type: 'type',
-                                  start: {
-                                    line: 1,
-                                    column: 18,
-                                  },
-                                  end: {
-                                    line: 1,
-                                    column: 22,
-                                  },
-                                  props: {
-                                    name: {
-                                      type: 'ident',
-                                      start: {
-                                        line: 1,
-                                        column: 18,
-                                      },
-                                      end: {
-                                        line: 1,
-                                        column: 22,
-                                      },
-                                      value: 'type2',
-                                    },
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                        },
+                        value: 'type1',
                       },
-                      {
-                        type: 'type',
+                      parameters: [
+                        {
+                          type: 'type',
+                          start: {
+                            line: 1,
+                            column: 18,
+                          },
+                          end: {
+                            line: 1,
+                            column: 22,
+                          },
+                          props: {
+                            name: {
+                              type: 'ident',
+                              start: {
+                                line: 1,
+                                column: 18,
+                              },
+                              end: {
+                                line: 1,
+                                column: 22,
+                              },
+                              value: 'type2',
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    type: 'type',
+                    start: {
+                      line: 1,
+                      column: 26,
+                    },
+                    end: {
+                      line: 1,
+                      column: 30,
+                    },
+                    props: {
+                      name: {
+                        type: 'ident',
                         start: {
                           line: 1,
                           column: 26,
@@ -135,24 +122,11 @@ module.exports = {
                           line: 1,
                           column: 30,
                         },
-                        props: {
-                          name: {
-                            type: 'ident',
-                            start: {
-                              line: 1,
-                              column: 26,
-                            },
-                            end: {
-                              line: 1,
-                              column: 30,
-                            },
-                            value: 'type3',
-                          },
-                        },
+                        value: 'type3',
                       },
-                    ],
+                    },
                   },
-                },
+                ],
               },
             },
             name: {

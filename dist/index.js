@@ -771,7 +771,7 @@ function enumParserMixin(Parser) {
         'followed by enum values'
       );
       const values = [this.parseEnumValue()];
-      const expectedLength = values[0].props.value.value.length - 2;
+      const expectedLength = values[0].value.value.length - 2;
       let finished = false;
 
       while (!finished) {
@@ -795,7 +795,12 @@ function enumParserMixin(Parser) {
         type: 'enum',
         start: enumKeyword.start,
         end: closingBrace.end,
-        props: { name, values },
+        props: {
+          name,
+          values,
+          length: expectedLength,
+          type: `uint${expectedLength * 8}`,
+        },
       };
     }
 
@@ -834,12 +839,7 @@ function enumParserMixin(Parser) {
         );
       }
 
-      return {
-        type: 'enumValue',
-        start: name.start,
-        end: value.end,
-        props: { name, value },
-      };
+      return { name, value };
     }
   };
 }
@@ -925,12 +925,7 @@ function fieldParserMixin(Parser) {
       );
       const name = this.parseIdent('a field name');
 
-      return {
-        type: 'fieldDefinition',
-        start: type.start,
-        end: name.end,
-        props: { type, name },
-      };
+      return { type, name };
     }
   };
 }
@@ -1148,7 +1143,7 @@ function structParserMixin(Parser) {
         type: 'struct',
         start: structKeyword.start,
         end: closingBrace.end,
-        props: { name, fields },
+        props: Object.assign({ fields }, name.props),
       };
     }
   };
@@ -1164,7 +1159,7 @@ function structNameParserMixin(Parser) {
       if (this.hasTokens && isOperator$1(this.peekToken(), '<')) {
         const parameters = this.parseStructNameParameters();
 
-        props.parameters = parameters;
+        props.parameters = parameters.props.parameters;
         end = parameters.end;
       }
 
@@ -1223,7 +1218,7 @@ function typeParserMixin(Parser) {
       if (this.hasTokens && isOperator$1(this.peekToken(), '<')) {
         const parameters = this.parseTypeParameters();
 
-        props.parameters = parameters;
+        props.parameters = parameters.props.parameters;
         end = parameters.end;
       }
 
@@ -1233,7 +1228,7 @@ function typeParserMixin(Parser) {
         if (props.dimensions) {
           props.dimensions.push(count);
         } else {
-          props.dimensions = [count];
+          props.dimensions = [count.props.expression];
         }
         end = count.end;
       }
