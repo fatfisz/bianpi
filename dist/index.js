@@ -37,8 +37,8 @@ function isOperator(char) {
 
 const newline = /\s*\n\s*/g;
 
-function newlineToSpace(str) {
-  return str.replace(newline, ' ');
+function newlineToSpace(string) {
+  return string.replace(newline, ' ');
 }
 
 function dedent(strings, ...values) {
