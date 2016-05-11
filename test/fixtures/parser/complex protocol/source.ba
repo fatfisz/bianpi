@@ -33,15 +33,13 @@ enum bool {
   TRUE  = 0x01
 }
 
-struct string {
-  uint16        length
-  uint8[length] chars
+struct list<lengthType, itemType> {
+  lengthType       length
+  itemType[length] elements
 }
 
-struct shortString {
-  uint8         length
-  uint8[length] chars
-}
+alias list<uint16, uint8> string
+alias list<uint8, uint8> shortString
 
 // the upper left corner of the map fragment is (x, y) and it's size is n x m
 // textures are passed from the left to the right, from the top to the bottom
@@ -51,6 +49,17 @@ struct mapFragment {
   uint16        n
   uint16        m
   uint16[n * m] textures
+}
+
+struct item {
+  itemId id
+  uint16 type
+  uint16 order
+}
+
+struct itemContainer {
+  itemId            capacity
+  list<uint8, item> items
 }
 
 struct player {
@@ -69,22 +78,6 @@ struct player {
 struct currentPlayer {
   player        player
   itemContainer equipment
-}
-
-struct item {
-  itemId id
-  uint16 type
-  uint16 order
-}
-
-struct itemContainer {
-  itemId     capacity
-  list<item> items
-}
-
-struct list<t> {
-  uint16    length
-  t[length] elements
 }
 
 /**
@@ -186,9 +179,9 @@ struct list<t> {
   // Unreliable server messages, from 0x3000
   {
     message worldState = 0x3000 {
-      mapFragment   mapFragment
-      currentPlayer currentPlayer
-      list<player>  players
+      mapFragment          mapFragment
+      currentPlayer        currentPlayer
+      list<uint8, player>  players
     }
 
     message timestamp = 0x3001 {
@@ -205,7 +198,7 @@ struct list<t> {
     }
 
     message debugMarkers = 0x7000 {
-      list<debugMarker> markers
+      list<uint8, debugMarker> markers
     }
 
     message debugVarDumpJSON = 0x7001 {
