@@ -8,7 +8,7 @@ const should = require('should');
 
 
 describe('Lexer Benchmark', () => {
-  const fixturesPath = path.join(__dirname, 'fixtures/lexer-benchmark');
+  const fixturesPath = path.join(__dirname, 'fixtures/lexer benchmark');
   const tests = fs.readdirSync(fixturesPath);
   let tokenize;
 
