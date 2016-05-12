@@ -35,7 +35,16 @@ class Scope {
   }
 
   getSymbolName(name, type) {
-    return `${name}$${type}`;
+    switch (type) {
+      case 'value':
+        return `${name}V`;
+      case 'type':
+        return `${name}T`;
+      case 'message':
+        return `${name}M`;
+      default:
+        throw new Error(`Unknown type ${type}.`);
+    }
   }
 
   getUniqueId(name) {
