@@ -7,11 +7,11 @@ function applyMixin(Class, mixin) {
 function aliasGeneratorMixin(Generator) {
   return class extends Generator {
     generateAlias({ props: { name, type } }, scope) {
-      if (scope.hasOwn(name.value)) {
+      if (scope.hasOwn(name.value, 'type')) {
         throw new Error(`${name.value} already is in the current scope`);
       }
 
-      const nameId = scope.set(name.value, 'value').id;
+      const nameId = scope.set(name.value, 'type').id;
       const typeId = this.generateType(type, scope);
 
       return `const ${nameId} = ${typeId};`;
@@ -34,54 +34,8 @@ class Scope {
     id += 1;
   }
 
-  hasOwn(name) {
-    return this.symbols.has(name);
-  }
-
-  has(name) {
-    const { symbols } = this;
-
-    if (symbols.has(name)) {
-      return true;
-    }
-
-    const { parentScope } = this;
-
-    if (parentScope) {
-      return parentScope.has(name);
-    }
-
-    return false;
-  }
-
-  get(name) {
-    const { symbols } = this;
-
-    if (symbols.has(name)) {
-      return symbols.get(name);
-    }
-
-    const { parentScope } = this;
-
-    if (parentScope) {
-      return parentScope.get(name);
-    }
-  }
-
-  set(name, type, props) {
-    const id = this.getUniqueId(name);
-    let info;
-
-    if (props) {
-      info = { type, id, props };
-    } else {
-      info = { type, id };
-    }
-
-    this.symbols.set(name, info);
-    this.root.allSymbols.add(id);
-
-    return info;
+  getSymbolName(name, type) {
+    return `${name}$${type}`;
   }
 
   getUniqueId(name) {
@@ -95,6 +49,63 @@ class Scope {
     }
 
     return current;
+  }
+
+  hasOwn(name, type) {
+    return this.symbols.has(this.getSymbolName(name, type));
+  }
+
+  has(name, type) {
+    return this.internalHas(this.getSymbolName(name, type));
+  }
+
+  internalHas(name) {
+    if (this.symbols.has(name)) {
+      return true;
+    }
+
+    const { parentScope } = this;
+
+    if (parentScope) {
+      return parentScope.internalHas(name);
+    }
+
+    return false;
+  }
+
+  get(name, type) {
+    return this.internalGet(this.getSymbolName(name, type));
+  }
+
+  internalGet(name) {
+    const { symbols } = this;
+
+    if (symbols.has(name)) {
+      return symbols.get(name);
+    }
+
+    const { parentScope } = this;
+
+    if (parentScope) {
+      return parentScope.internalGet(name);
+    }
+  }
+
+  set(name, type, props) {
+    const symbolName = this.getSymbolName(name, type);
+    const id = this.getUniqueId(symbolName);
+    let info;
+
+    if (props) {
+      info = { type, id, props };
+    } else {
+      info = { type, id };
+    }
+
+    this.symbols.set(symbolName, info);
+    this.root.allSymbols.add(id);
+
+    return info;
   }
 
   exit() {
@@ -120,7 +131,7 @@ function blockGeneratorMixin(Generator) {
 function constGeneratorMixin(Generator) {
   return class extends Generator {
     generateConst({ props: { name, expression } }, scope) {
-      if (scope.hasOwn(name.value)) {
+      if (scope.hasOwn(name.value, 'value')) {
         throw new Error(`${name.value} already is in the current scope`);
       }
 
@@ -212,7 +223,7 @@ function trimAroundNewline(strings, ...values) {
 function enumGeneratorMixin(Generator) {
   return class extends Generator {
     generateEnum({ props: { name, values, type } }, scope) {
-      if (scope.hasOwn(name.value)) {
+      if (scope.hasOwn(name.value, 'type')) {
         throw new Error(`${name.value} already is in the current scope`);
       }
 
@@ -220,7 +231,7 @@ function enumGeneratorMixin(Generator) {
       const enumName = `${nameId}enum`;
       const valueProps = values
         .map(({ name, value }) => `${name.value}: ${value.value}`);
-      const typeId = scope.root.get(type).id;
+      const typeId = scope.root.get(type, 'type').id;
 
       return trimAroundNewline`
         function ${enumName}(value) {
@@ -244,7 +255,7 @@ function enumGeneratorMixin(Generator) {
 function fieldGeneratorMixin(Generator) {
   return class extends Generator {
     generateField({ type, name }, scope) {
-      if (scope.hasOwn(name.value)) {
+      if (scope.hasOwn(name.value, 'value')) {
         throw new Error(`${name.value} already is in the current scope`);
       }
 
@@ -275,11 +286,11 @@ function indentGeneratorMixin(Generator) {
 function messageGeneratorMixin(Generator) {
   return class extends Generator {
     generateMessage({ props: { name, id, fields } }, scope) {
-      if (scope.hasOwn(name.value)) {
+      if (scope.hasOwn(name.value, 'message')) {
         throw new Error(`${name.value} already is in the current scope`);
       }
 
-      scope.set(name.value, 'value');
+      scope.set(name.value, 'message');
       const messageScope = new Scope(scope);
 
       const generatedFields = fields.map((field) =>
@@ -287,7 +298,7 @@ function messageGeneratorMixin(Generator) {
       );
 
       const fieldMapping = fields.map(({ name }) =>
-        `${name.value}: ${messageScope.get(name.value).id}`
+        `${name.value}: ${messageScope.get(name.value, 'value').id}`
       );
 
       messageScope.exit();
@@ -352,7 +363,7 @@ function rootGeneratorMixin(Generator) {
 function structGeneratorMixin(Generator) {
   return class extends Generator {
     generateStruct({ props: { name, parameters, fields } }, scope) {
-      if (scope.hasOwn(name.value)) {
+      if (scope.hasOwn(name.value, 'type')) {
         throw new Error(`${name.value} already is in the current scope`);
       }
 
@@ -375,7 +386,7 @@ function structGeneratorMixin(Generator) {
       );
 
       const fieldMapping = fields.map(({ name }) =>
-        `${name.value}: ${structScope.get(name.value).id}`
+        `${name.value}: ${structScope.get(name.value, 'value').id}`
       );
 
       structScope.exit();
@@ -408,18 +419,13 @@ function dedent(strings, ...values) {
 function typeGeneratorMixin(Generator) {
   return class extends Generator {
     generateType({ props: { name, parameters, dimensions } }, scope) {
-      if (!scope.has(name.value)) {
+      if (!scope.has(name.value, 'type')) {
         throw new Error(`Type ${name.value} is not declared.`);
       }
 
-      const nameInfo = scope.get(name.value);
-      if (!nameInfo.type === 'type') {
-        throw new Error(`${name.value} is not a type.`);
-      }
-
-      const nameId = nameInfo.id;
-      const length = nameInfo.props && nameInfo.props.length || 0;
-      let result = nameId;
+      const { id, props } = scope.get(name.value, 'type');
+      const length = props && props.length || 0;
+      let result = id;
 
       if (parameters) {
         if (parameters.length !== length) {
@@ -432,7 +438,7 @@ function typeGeneratorMixin(Generator) {
 
         const types = parameters
           .map((parameter) => this.generateType(parameter, scope));
-        const signature = this.getSignature(nameId, types);
+        const signature = this.getSignature(id, types);
 
         const info = scope.root.set(signature, 'type', {
           wrapper: true,
