@@ -7,14 +7,14 @@ function applyMixin(Class, mixin) {
 function aliasGeneratorMixin(Generator) {
   return class extends Generator {
     generateAlias({ props: { name, type } }, scope) {
+      const typeCode = this.generateType(type, scope);
+
       if (scope.hasOwn(name.value, 'type')) {
         throw new Error(`${name.value} already is in the current scope`);
       }
-
       const nameId = scope.set(name.value, 'type').id;
-      const typeId = this.generateType(type, scope);
 
-      return `const ${nameId} = ${typeId};`;
+      return `const ${nameId} = ${typeCode};`;
 
     }
   };
@@ -23,28 +23,25 @@ function aliasGeneratorMixin(Generator) {
 let id = 0;
 
 class Scope {
-  constructor(parentScope) {
+  constructor(parentScope, isActualScope = false) {
+    if (process.env.NODE_ENV !== 'production' &&
+        !parentScope && !isActualScope) {
+      throw new Error('Root scope has to represent an actual scope.');
+    }
+
     Object.assign(this, {
       id,
       parentScope,
       root: parentScope ? parentScope.root : this,
       symbols: new Map(),
+      symbolSet: isActualScope ? new Set() : parentScope.symbolSet,
     });
 
     id += 1;
   }
 
   getSymbolName(name, type) {
-    switch (type) {
-      case 'value':
-        return `${name}V`;
-      case 'type':
-        return `${name}T`;
-      case 'message':
-        return `${name}M`;
-      default:
-        throw new Error(`Unknown type ${type}.`);
-    }
+    return `${name}_${type[0]}`;
   }
 
   getUniqueId(name) {
@@ -52,7 +49,7 @@ class Scope {
     let current = base;
     let index = 0;
 
-    while (this.root.allSymbols.has(current)) {
+    while (this.symbolSet.has(current)) {
       index += 1;
       current = `${base}$${index}`;
     }
@@ -106,21 +103,15 @@ class Scope {
     let info;
 
     if (props) {
-      info = { type, id, props };
+      info = { id, type, props };
     } else {
-      info = { type, id };
+      info = { id, type };
     }
 
     this.symbols.set(symbolName, info);
-    this.root.allSymbols.add(id);
+    this.symbolSet.add(id);
 
     return info;
-  }
-
-  exit() {
-    for (const { id } of this.symbols.values()) {
-      this.root.allSymbols.delete(id);
-    }
   }
 }
 
@@ -128,11 +119,8 @@ function blockGeneratorMixin(Generator) {
   return class extends Generator {
     generateBlock(node, scope) {
       const blockScope = new Scope(scope);
-      const result = this.generateDeclarations(node, blockScope);
 
-      blockScope.exit();
-
-      return result;
+      return this.generateDeclarations(node, blockScope);
     }
   };
 }
@@ -143,10 +131,11 @@ function constGeneratorMixin(Generator) {
       if (scope.hasOwn(name.value, 'value')) {
         throw new Error(`${name.value} already is in the current scope`);
       }
-
       const nameId = scope.set(name.value, 'value').id;
 
-      return `const ${nameId} = null; // TODO: put expression here`;
+      const expressionCode = this.generateExpression(expression, scope);
+
+      return `const ${nameId} = ${expressionCode};`;
     }
   };
 }
@@ -207,11 +196,7 @@ function decoratedDeclarationGeneratorMixin(Generator) {
         }
       }
 
-      const result = this.generateDeclaration(declaration, declarationScope);
-
-      declarationScope.exit();
-
-      return result;
+      return this.generateDeclaration(declaration, declarationScope);
     }
   };
 }
@@ -235,12 +220,12 @@ function enumGeneratorMixin(Generator) {
       if (scope.hasOwn(name.value, 'type')) {
         throw new Error(`${name.value} already is in the current scope`);
       }
-
       const nameId = scope.set(name.value, 'type').id;
+
       const enumName = `${nameId}enum`;
       const valueProps = values
         .map(({ name, value }) => `${name.value}: ${value.value}`);
-      const typeId = scope.root.get(type, 'type').id;
+      const numericTypeId = scope.root.get(type, 'type').id;
 
       return trimAroundNewline`
         function ${enumName}(value) {
@@ -254,9 +239,41 @@ function enumGeneratorMixin(Generator) {
         });
 
         function ${nameId}() {
-          ${this.indent1}return ${enumName}(${typeId}());
+          ${this.indent1}return ${enumName}(${numericTypeId}());
         }
       `;
+    }
+  };
+}
+
+function expressionGeneratorMixin(Generator) {
+  return class extends Generator {
+    generateExpression({ type, value, props }, scope) {
+      if (type === 'number') {
+        return value;
+      }
+
+      if (type === 'string') {
+        return `'${value}'`;
+      }
+
+      if (type === 'ident') {
+        if (!scope.has(value, 'value')) {
+          throw new Error(`Value '${value}' is not declared.`);
+        }
+
+        return value;
+      }
+
+      const generated = props.elements.reduce((acc, element, index) => {
+        if (index % 2 === 0) {
+          return `${acc} ${this.generateExpression(element, scope)}`;
+        }
+
+        return `${acc} ${element.value}`;
+      }, '');
+
+      return `(${generated.slice(1)})`;
     }
   };
 }
@@ -267,11 +284,18 @@ function fieldGeneratorMixin(Generator) {
       if (scope.hasOwn(name.value, 'value')) {
         throw new Error(`${name.value} already is in the current scope`);
       }
-
       const nameId = scope.set(name.value, 'value').id;
-      const typeId = this.generateType(type, scope);
 
-      return `const ${nameId} = ${typeId}();`;
+      const typeCode = this.generateType(type, scope);
+      let typeCall;
+
+      if (typeCode.startsWith('() => ')) {
+        typeCall = typeCode.slice('() => '.length);
+      } else {
+        typeCall = `${typeCode}()`;
+      }
+
+      return `const ${nameId} = ${typeCall};`;
     }
   };
 }
@@ -298,9 +322,9 @@ function messageGeneratorMixin(Generator) {
       if (scope.hasOwn(name.value, 'message')) {
         throw new Error(`${name.value} already is in the current scope`);
       }
-
       scope.set(name.value, 'message');
-      const messageScope = new Scope(scope);
+
+      const messageScope = new Scope(scope, true);
 
       const generatedFields = fields.map((field) =>
         this.generateField(field, messageScope)
@@ -310,13 +334,11 @@ function messageGeneratorMixin(Generator) {
         `${name.value}: ${messageScope.get(name.value, 'value').id}`
       );
 
-      messageScope.exit();
-
       return trimAroundNewline`
-        $.register(${id.value}, '${name.value}', () => {
+        register('${name.value}', ${id.value}, () => {
           ${this.indent1}${generatedFields.join(`\n${this.indent1}`)}
           ${this.indent1}return {
-          ${this.indent2}${fieldMapping.join(`,\n${this.indent2}`)}
+            ${this.indent2}${fieldMapping.join(`,\n${this.indent2}`)}
           ${this.indent1}};
         });
       `;
@@ -326,9 +348,7 @@ function messageGeneratorMixin(Generator) {
 
 class RootScope extends Scope {
   constructor() {
-    super(null);
-
-    this.allSymbols = new Set();
+    super(null, true);
   }
 }
 
@@ -339,21 +359,7 @@ function rootGeneratorMixin(Generator) {
 
       this.insertRootTypes(rootScope);
 
-      const result = this.generateDeclarations(this.tree, rootScope);
-
-      const wrappers = [];
-      rootScope.symbols.forEach((symbol) => {
-        const { props } = symbol;
-        if (props && props.wrapper) {
-          wrappers.push(trimAroundNewline`
-            function ${symbol.id}() {
-              ${this.indent1}return ${props.body}();
-            }
-          `);
-        }
-      });
-
-      return `${result}\n\n${wrappers.join('\n\n')}`;
+      return this.generateDeclarations(this.tree, rootScope);
     }
 
     insertRootTypes(scope) {
@@ -375,10 +381,11 @@ function structGeneratorMixin(Generator) {
       if (scope.hasOwn(name.value, 'type')) {
         throw new Error(`${name.value} already is in the current scope`);
       }
-
       const props = {};
       const nameId = scope.set(name.value, 'type', props).id;
-      const structScope = new Scope(scope);
+
+      const structScope = new Scope(scope, true);
+
       let args;
       if (parameters) {
         args = parameters
@@ -397,8 +404,6 @@ function structGeneratorMixin(Generator) {
       const fieldMapping = fields.map(({ name }) =>
         `${name.value}: ${structScope.get(name.value, 'value').id}`
       );
-
-      structScope.exit();
 
       return trimAroundNewline`
         function ${nameId}(${args}) {
@@ -429,38 +434,41 @@ function typeGeneratorMixin(Generator) {
   return class extends Generator {
     generateType({ props: { name, parameters, dimensions } }, scope) {
       if (!scope.has(name.value, 'type')) {
-        throw new Error(`Type ${name.value} is not declared.`);
+        throw new Error(`Type '${name.value}' is not declared.`);
+      }
+      const {
+        id: nameId,
+        props: typeProps,
+      } = scope.get(name.value, 'type');
+
+      const parametersLength = parameters ? parameters.length : 0;
+      // typeProps can be there, but might be missing `length` - so we're using
+      // && and ||
+      const expectedLength = typeProps && typeProps.length || 0;
+
+      if (parametersLength !== expectedLength) {
+        throw this.getTypeArgumentsMismatchError(
+          name.value,
+          expectedLength,
+          parametersLength
+        );
       }
 
-      const { id, props } = scope.get(name.value, 'type');
-      const length = props && props.length || 0;
-      let result = id;
+      let typeCode = nameId;
 
       if (parameters) {
-        if (parameters.length !== length) {
-          throw this.getTypeArgumentsMismatchError(
-            name.value,
-            length,
-            parameters.length
-          );
-        }
-
         const types = parameters
           .map((parameter) => this.generateType(parameter, scope));
-        const signature = this.getSignature(id, types);
-
-        const info = scope.root.set(signature, 'type', {
-          wrapper: true,
-          body: `${result}(${types.join(', ')})`,
-        });
-
-        result = info.id;
-      } else if (length > 0) {
-        throw this.getTypeArgumentsMismatchError(name.value, length, 0);
+        typeCode = `() => ${typeCode}(${types.join(', ')})`;
       }
 
-      // TODO: dimensions
-      return result;
+      if (dimensions) {
+        const expressions = dimensions
+          .map((expression) => this.generateExpression(expression, scope));
+        typeCode = `makeArrayType(${typeCode}, ${expressions.join(', ')})`;
+      }
+
+      return typeCode;
     }
 
     getTypeArgumentsMismatchError(name, length, argsLength) {
@@ -471,11 +479,6 @@ function typeGeneratorMixin(Generator) {
         ${argsLength === 1 ? 'was' : 'were'}
         given.
       `);
-    }
-
-    getSignature(name, args) {
-      const processedArgs = args.map((arg) => `${arg.length}${arg}`);
-      return `${name.length}n${name}${args.length}a_${processedArgs.join('')}`;
     }
   };
 }
@@ -488,7 +491,7 @@ const generatorMixins = [
   declarationsGeneratorMixin,
   decoratedDeclarationGeneratorMixin,
   enumGeneratorMixin,
-  // expressionGeneratorMixin,
+  expressionGeneratorMixin,
   fieldGeneratorMixin,
   indentGeneratorMixin,
   messageGeneratorMixin,
