@@ -322,10 +322,19 @@ function indentGeneratorMixin(Generator) {
 function messageGeneratorMixin(Generator) {
   return class extends Generator {
     generateMessage({ props: { name, id, fields } }, scope) {
-      if (scope.hasOwn(name.value, 'message')) {
-        throw new Error(`${name.value} already is in the current scope`);
+      if (scope.root.hasOwn(name.value, 'message')) {
+        throw new Error(
+          `A message with the name '${name.value}' was already declared.`
+        );
       }
-      scope.set(name.value, 'message');
+      scope.root.set(name.value, 'message');
+
+      if (scope.root.hasOwn(id.value, 'messageId')) {
+        throw new Error(
+          `A message with the id ${id.value} was already declared.`
+        );
+      }
+      scope.root.set(id.value, 'messageId');
 
       const messageScope = new Scope(scope, true);
 
