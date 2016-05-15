@@ -229,17 +229,17 @@ function enumGeneratorMixin(Generator) {
 
       return trimAroundNewline`
         function ${enumName}(value) {
-          ${this.indent1}this.value = value;
+          ${this.indent(1)}this.value = value;
         }
         Object.defineProperty(${enumName}.prototype, 'values', {
-          ${this.indent1}value: Object.freeze({
-            ${this.indent2}${valueProps.join(`,\n${this.indent2}`)}
-          ${this.indent1}}),
-          ${this.indent1}enumerable: true,
+          ${this.indent(1)}value: Object.freeze({
+            ${this.indent(2)}${valueProps.join(`,\n${this.indent(2)}`)}
+          ${this.indent(1)}}),
+          ${this.indent(1)}enumerable: true,
         });
 
         function ${nameId}() {
-          ${this.indent1}return ${enumName}(${numericTypeId}());
+          ${this.indent(1)}return ${enumName}(${numericTypeId}());
         }
       `;
     }
@@ -310,8 +310,11 @@ function indentGeneratorMixin(Generator) {
         indentSize = 2,
       } = options;
 
-      this.indent1 = indentStyle === 'tab' ? '\t' : ' '.repeat(indentSize);
-      this.indent2 = this.indent1.repeat(2);
+      this.indentChar = indentStyle === 'tab' ? '\t' : ' '.repeat(indentSize);
+    }
+
+    indent(count) {
+      return this.indentChar.repeat(count);
     }
   };
 }
@@ -336,10 +339,10 @@ function messageGeneratorMixin(Generator) {
 
       return trimAroundNewline`
         register('${name.value}', ${id.value}, () => {
-          ${this.indent1}${generatedFields.join(`\n${this.indent1}`)}
-          ${this.indent1}return {
-            ${this.indent2}${fieldMapping.join(`,\n${this.indent2}`)}
-          ${this.indent1}};
+          ${this.indent(1)}${generatedFields.join(`\n${this.indent(1)}`)}
+          ${this.indent(1)}return {
+            ${this.indent(2)}${fieldMapping.join(`,\n${this.indent(2)}`)}
+          ${this.indent(1)}};
         });
       `;
     }
@@ -407,10 +410,10 @@ function structGeneratorMixin(Generator) {
 
       return trimAroundNewline`
         function ${nameId}(${args}) {
-          ${this.indent1}${generatedFields.join(`\n${this.indent1}`)}
-          ${this.indent1}return {
-            ${this.indent2}${fieldMapping.join(`,\n${this.indent2}`)}
-          ${this.indent1}};
+          ${this.indent(1)}${generatedFields.join(`\n${this.indent(1)}`)}
+          ${this.indent(1)}return {
+            ${this.indent(2)}${fieldMapping.join(`,\n${this.indent(2)}`)}
+          ${this.indent(1)}};
         }
       `;
     }
