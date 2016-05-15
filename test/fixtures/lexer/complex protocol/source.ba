@@ -1,27 +1,4 @@
 /**
- * Packet
- *
- * Packet is a unit of data which is used in communication between the server
- * and the client. When a message is received (either on the server or client),
- * it is expected to be a packet. 1 packet consists of 1 or more messages
- * (defined below).
- */
-
-/**
- * Basic types
- *
- * int8, int16, int32 - n-bit signed integers
- * uint8, uint16, uint32 - n-bit unsigned integers
- * float32, float64 - n-bit floats
- */
-
-/**
- * Consts
- */
-
-const VERSION = '3'
-
-/**
  * Custom types and structures
  */
 
@@ -44,11 +21,11 @@ alias list<uint8, uint8> shortString
 // the upper left corner of the map fragment is (x, y) and it's size is n x m
 // textures are passed from the left to the right, from the top to the bottom
 struct mapFragment {
-  int16         x
-  int16         y
-  uint16        n
-  uint16        m
-  uint16[n * m] textures
+  int16        x
+  int16        y
+  uint16       n
+  uint16       m
+  uint16[m][n] textures
 }
 
 struct item {
