@@ -1718,7 +1718,7 @@ function typeParserMixin(Parser) {
         const count = this.parseArrayTypeLength();
 
         if (props.dimensions) {
-          props.dimensions.push(count);
+          props.dimensions.push(count.props.expression);
         } else {
           props.dimensions = [count.props.expression];
         }
