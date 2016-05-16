@@ -1973,7 +1973,9 @@ const Parser = parserMixins.reduce(applyMixin, class {
 });
 
 function parse(lexerResult, options = {}) {
-  return new Parser(lexerResult, options).parseRoot();
+  const parser = new Parser(lexerResult, options);
+
+  return parser.parseRoot();
 }
 
 function generateFromSource(source, options) {
