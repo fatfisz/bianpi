@@ -138,6 +138,10 @@ class Scope {
     });
   }
 
+  createChild(isActualScope = false) {
+    return new Scope(this, isActualScope);
+  }
+
   getUniqueId(name) {
     const base = `_${name}_`;
     let current = base;
@@ -292,7 +296,7 @@ function aliasGeneratorMixin(Generator) {
 function blockGeneratorMixin(Generator) {
   return class extends Generator {
     generateBlock(node, scope) {
-      const blockScope = new Scope(scope);
+      const blockScope = scope.createChild();
 
       return this.generateDeclarations(node, blockScope);
     }
@@ -358,7 +362,7 @@ function decoratedDeclarationGeneratorMixin(Generator) {
     generateDecoratedDeclaration({ props: { decorators, declaration } }, scope) {
       console.log('generateDecoratedDeclaration');
 
-      const declarationScope = new Scope(scope);
+      const declarationScope = scope.createChild();
 
       if (this.target) {
         for (const decorator of decorators) {
@@ -390,7 +394,7 @@ function enumGeneratorMixin(Generator) {
       const nameId = scope.setIfNotPresent(name, TYPE).id;
       scope.root.setIfNotPresent(name, ENUM);
 
-      const enumPseudoScope = new Scope(scope);
+      const enumPseudoScope = scope.createChild();
 
       const valueProps = values
         .map(({ name, value }) => {
@@ -484,7 +488,7 @@ function messageGeneratorMixin(Generator) {
       scope.root.setIfNotPresent(name, MESSAGE, null, 'used');
       scope.root.setIfNotPresent(id, MESSAGE_ID, null, 'used');
 
-      const messageScope = new Scope(scope, true);
+      const messageScope = scope.createChild(true);
 
       const generatedFields = fields.map((field) =>
         this.generateField(field, messageScope)
@@ -522,7 +526,7 @@ function structGeneratorMixin(Generator) {
         props,
       } = scope.setIfNotPresent(name, TYPE);
 
-      const structScope = new Scope(scope, true);
+      const structScope = scope.createChild(true);
 
       let args;
       if (parameters) {
