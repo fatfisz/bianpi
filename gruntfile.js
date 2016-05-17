@@ -1,7 +1,7 @@
 'use strict';
 
 const loadGruntTasks = require('load-grunt-tasks');
-const rollupPluginIncludePaths = require('rollup-plugin-includepaths').default;
+const rollupPluginIncludePaths = require('rollup-plugin-includepaths');
 const rollupPluginNodeResolve = require('rollup-plugin-node-resolve');
 const rollupPluginReplace = require('rollup-plugin-replace');
 
